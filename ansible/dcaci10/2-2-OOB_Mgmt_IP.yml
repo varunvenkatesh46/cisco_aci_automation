@@ -1,0 +1,34 @@
+---
+- name: Configure OOB Mgmt IP Address
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+      use_proxy: no
+      path: /api/mo/.json
+      method: post
+
+  tasks:
+    - name: Configure OOB Mgmt IP
+      aci_rest:
+        <<: *apic_info
+        content:
+          mgmtRsOoBStNode:
+            attributes:
+              addr: "{{ item.addr }}"
+              descr: "Managed by Ansible"
+              dn: "uni/tn-mgmt/mgmtp-default/oob-default/rsooBStNode-[topology/pod-1/node-{{ item.nodeid }}]"
+              gw: 192.168.10.254
+              tDn: "topology/pod-1/node-{{ item.nodeid }}"
+      with_items:
+        - addr: 192.168.10.211/24
+          nodeid: 101
+        - addr: 192.168.10.212/24
+          nodeid: 102
+        - addr: 192.168.10.213/24
+          nodeid: 103

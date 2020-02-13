@@ -1,0 +1,22 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+  - name: Query all tenants
+    aci_tenant:
+      <<: *apic_info
+      state: query
+    register: all_tenants
+
+  - name: Display all Tenants
+    debug:
+      var: all_tenants

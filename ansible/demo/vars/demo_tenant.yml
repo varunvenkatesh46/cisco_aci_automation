@@ -1,0 +1,146 @@
+---
+# Tenant Information
+
+tenants:
+  - tenantName: DEMO-ANSIBLE
+
+vrfs:
+  - vrfName: VRF-1
+    tenantName: "{{tenants[0].tenantName}}"
+
+bridgeDomains:
+  - bdName: 192.168.100.0_24
+    tenantName: "{{tenants[0].tenantName}}"
+    vrfName: "{{vrfs[0].vrfName}}"
+  - bdName: 192.168.101.0_24
+    tenantName: "{{tenants[0].tenantName}}"
+    vrfName: "{{vrfs[0].vrfName}}"
+
+bdSubnets:
+  - bdName: "{{bridgeDomains[0].bdName}}"
+    tenantName: "{{tenants[0].tenantName}}"
+    gwAddress: 192.168.100.1
+    mask: 24
+  - bdName: "{{bridgeDomains[1].bdName}}"
+    tenantName: "{{tenants[0].tenantName}}"
+    gwAddress: 192.168.101.1
+    mask: 24
+
+appProfiles:
+  - apName: 3-TIER-APP
+    tenantName: "{{tenants[0].tenantName}}"
+
+epgs:
+  - epgName: WEB
+    tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    bdName: 192.168.100.0_24
+  - epgName: APP
+    tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    bdName: 192.168.101.0_24
+  - epgName: DB
+    tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    bdName: 192.168.101.0_24
+
+filters:
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: Web-Filters
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: App-Filters
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: Basic-Filters
+
+filter_entries:
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: "{{filters[0].filterName}}"
+    entryname: http
+    subj_name: tcp
+    dst_port: 80
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: "{{filters[0].filterName}}"
+    entryname: https
+    subj_name: tcp
+    dst_port: 443
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: "{{filters[2].filterName}}"
+    entryname: ssh
+    subj_name: tcp
+    dst_port: 22
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: "{{filters[1].filterName}}"
+    entryname: ftp
+    subj_name: tcp
+    dst_port: 21
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: "{{filters[1].filterName}}"
+    entryname: scp
+    subj_name: tcp
+    dst_port: 22
+  - tenantName: "{{tenants[0].tenantName}}"
+    filterName: "{{filters[2].filterName}}"
+    entryname: icmp
+    subj_name: icmp
+
+
+
+contracts:
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: web-App-Contract  
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: App-Db-Contract
+
+subjects:
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[0].contractName}}"
+    subjectName: Web-Filters
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[1].contractName}}"
+    subjectName: File-Filters
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[1].contractName}}"
+    subjectName: Basic-Filters
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[0].contractName}}"
+    subjectName: Basic-Filters
+
+subjectfilters:
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[0].contractName}}"
+    subjectName: "{{subjects[0].subjectName}}"
+    filterName: "{{filters[0].filterName}}"
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[1].contractName}}"
+    subjectName: "{{subjects[1].subjectName}}"
+    filterName: "{{filters[1].filterName}}"
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[0].contractName}}"
+    subjectName: "{{subjects[0].subjectName}}"
+    filterName: "{{filters[2].filterName}}"
+  - tenantName: "{{tenants[0].tenantName}}"
+    contractName: "{{contracts[1].contractName}}"
+    subjectName: "{{subjects[1].subjectName}}"
+    filterName: "{{filters[2].filterName}}"
+
+epg_contracts:
+  - tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    epgName: "{{epgs[1].epgName}}"
+    contractName: "{{contracts[0].contractName}}"
+    contract_type: "provider"
+  - tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    epgName: "{{epgs[0].epgName}}"
+    contractName: "{{contracts[0].contractName}}"
+    contract_type: "consumer"
+  - tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    epgName: "{{epgs[2].epgName}}"
+    contractName: "{{contracts[1].contractName}}"
+    contract_type: "provider"
+  - tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    epgName: "{{epgs[1].epgName}}"
+    contractName: "{{contracts[1].contractName}}"
+    contract_type: "consumer"

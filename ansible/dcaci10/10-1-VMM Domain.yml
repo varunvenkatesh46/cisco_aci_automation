@@ -1,0 +1,84 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Create VLAN Pool
+      aci_vlan_pool:
+        <<: *apic_info
+        pool: vCenter_VLANs
+        mode: dynamic
+        state: present
+        output_level: debug
+
+    - name: Create VLAN Pool BLock
+      aci_vlan_pool_encap_block:
+        <<: *apic_info
+        name: vCenter_VLANs_pool
+        pool: vCenter_VLANs
+        pool_mode: dynamic
+        start: 100
+        end: 199
+        state: present
+
+    - name: Add a new VMM domain
+      aci_domain:
+        <<: *apic_info
+        domain: vCenter_VMM
+        domain_type: vmm
+        vm_provider: vmware
+        vswitch: dvs
+        state: present
+
+    - name: Bind a VMM domain to VLAN pool
+      aci_domain_to_vlan_pool:
+        <<: *apic_info
+        domain: vCenter_VMM
+        domain_type: vmm
+        pool: vCenter_VLANs
+        pool_allocation_mode: dynamic
+        vm_provider: vmware
+        state: present
+
+    - name: Add AEP to domain binding
+      aci_aep_to_domain:
+        <<: *apic_info
+        aep: HOST_AAEP
+        domain: vCenter_VMM
+        domain_type: vmm
+        vm_provider: vmware
+        state: present
+
+    - name: Add credential to VMware VMM domain
+      aci_vmm_credential:
+        <<: *apic_info
+        domain: vCenter_VMM
+        description: secure credential
+        name: vCenterCredential
+        credential_username: administrator@vsphere.local
+        credential_password: vCenterPassword
+        vm_provider: vmware
+
+    - name: Add Vcenter to VMM Domain
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/uni/vmmp-VMware/dom-vCenter_VMM.json
+        method: post
+        content:
+          vmmCtrlrP:
+            attributes:
+              hostOrIp: 192.168.10.50
+              name: vCENTER
+              rootContName: DC
+            children:
+              - vmmRsAcc:
+                  attributes:
+                    tDn: uni/vmmp-VMware/dom-vCenter_VMM/usracc-vCenterCredential

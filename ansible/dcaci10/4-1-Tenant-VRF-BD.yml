@@ -1,0 +1,66 @@
+---
+- name: Deploy Tenant, VRF and Bridge Domain
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Create New Tenant
+      aci_tenant:
+        <<: *apic_info
+        tenant: Sales
+        state: present
+      tags: tenant, create
+
+    - name: Remove a tenant
+      aci_tenant:
+        <<: *apic_info
+        tenant: Sales
+        state: absent
+      tags: delete
+    
+    - name: Query a tenant
+      aci_tenant:
+        <<: *apic_info
+        tenant: Sales
+        state: query
+      register: query_result
+      tags: tenant, get
+
+    - name: Query all tenants
+      aci_tenant:
+        <<: *apic_info
+        state: query
+      register: query_result
+      tags: tenant, get_all
+
+    - name: Create a New VRF
+      aci_vrf:
+        <<: *apic_info
+        vrf: Presales_VRF
+        tenant: Sales
+        policy_control_preference: enforced
+        policy_control_direction: ingress
+        state: present
+      tags: create
+
+    - name: Add Bridge Domain
+      aci_bd:
+        <<: *apic_info
+        tenant: Sales
+        bd: Presales_BD
+        vrf: Presales_VRF
+        enable_routing: no
+        state: present
+      tags: create
+
+    - name: Display Query Result
+      debug:
+        msg: '{{query_result}}'
+      tags: get_all

@@ -1,0 +1,74 @@
+---
+- name: Deploy Application Profile
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Add a new BASIC and WEB filter to a tenant
+      aci_filter:
+        <<: *apic_info
+        filter: "{{ item }}"
+        description: Managed by Ansible
+        tenant: Sales
+        state: present
+      with_items:
+        - FTP_Fltr
+    
+    # - pause:
+    #     prompt: "Press Enter to continue"
+
+    - name: Add Filter entry
+      aci_filter_entry:
+        <<: *apic_info
+        state: present
+        entry: "{{ item.entry }}"
+        tenant: Sales
+        ether_type: ip
+        ip_protocol: "{{ item.ip_protocol }}"
+        dst_port: "{{ item.dst_port | default('unspecified')}}"
+        stateful: true
+        filter: "{{ item.filter }}"
+        descr: Managed by Ansible
+      with_items:
+        - entry: FTP
+          dst_port: "21"
+          ip_protocol: tcp
+          filter: FTP_Fltr
+
+
+    - name: Add a new contract
+      aci_contract:
+        <<: *apic_info
+        tenant: Sales
+        contract: FileServices_Ct
+        description: Managed by Ansible
+        scope: context
+        state: present
+
+    - name: Add a new contract subject
+      aci_contract_subject:
+        <<: *apic_info
+        tenant: Sales
+        contract: FileServices_Ct
+        subject: FileServer_Subj
+        description: Managed by Ansible
+        state: present
+
+    - name: Add a new contract subject to filer binding
+      aci_contract_subject_to_filter:
+        <<: *apic_info
+        tenant: Sales
+        contract: FileServices_Ct
+        subject: FileServer_Subj
+        filter: "{{ item }}"
+        state: present
+      with_items:
+        - Basic_Fltr
+        - FTP_Fltr

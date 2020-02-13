@@ -1,0 +1,57 @@
+---
+# Tenant Information
+
+tenant:
+  tenantName: DEMO-ANSIBLE
+  vrfName: vrf-01
+
+
+bridgeDomains:
+  - bdName: 192.168.100.0_24
+    tenantName: "{{tenants[0].tenantName}}"
+    vrfName: "{{vrfs[0].vrfName}}"
+  - bdName: 192.168.101.0_24
+    tenantName: "{{tenants[0].tenantName}}"
+    vrfName: "{{vrfs[0].vrfName}}"
+
+bdSubnets:
+  - bdName: "{{bridgeDomains[0].bdName}}"
+    tenantName: "{{tenants[0].tenantName}}"
+    gwAddress: 192.168.100.1
+    mask: 24
+  - bdName: "{{bridgeDomains[1].bdName}}"
+    tenantName: "{{tenants[0].tenantName}}"
+    gwAddress: 192.168.101.1
+    mask: 24
+
+appProfiles:
+  - apName: WordPress
+    tenantName: "{{tenants[0].tenantName}}"
+
+epgs:
+  - epgName: WebServers
+    tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    bdName: "{{bridgeDomains[0].bdName}}"
+  - epgName: DbServers
+    tenantName: "{{tenants[0].tenantName}}"
+    apName: "{{appProfiles[0].apName}}"
+    bdName: "{{bridgeDomains[1].bdName}}"
+
+filters:
+  - tenantName: "{{tenants[0].tenantName}}"
+    filtername: Web-Filter
+  - tenantName: "{{tenants[0].tenantName}}"
+    filtername: App-Filter
+
+filter_entries:
+  - tenantName: "{{tenants[0].tenantName}}"
+    filtername: Web-Filter
+    entryname: http
+    subj_name: tcp
+    dst_port: 80
+  - tenantName: "{{tenants[0].tenantName}}"
+    filtername: Web-Filter
+    entryname: https
+    subj_name: tcp
+    dst_port: 443

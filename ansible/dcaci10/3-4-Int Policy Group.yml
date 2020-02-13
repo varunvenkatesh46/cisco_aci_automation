@@ -1,0 +1,66 @@
+---
+- name: Deploy Interface Selectors
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Create LLDP Policy (Enable)
+      aci_interface_policy_lldp:
+        <<: *apic_info
+        lldp_policy: Enable_LLDP
+        receive_state: true
+        transmit_state: true
+        state: present
+
+    - name: Create CDP Policy (Enable)
+      aci_interface_policy_cdp:
+        <<: *apic_info
+        name: Enable_CDP
+        admin_state: true
+        state: present
+
+    - name: Create Port Channel Policy (Static ON)
+      aci_interface_policy_port_channel:
+        <<: *apic_info
+        port_channel: Static_Channel_On
+
+    - name: Create a Leaf Access Port Policy Group (Cat_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: leaf
+        policy_group: Cat_IPG
+        lldp_policy: Enable_LLDP
+        state: present
+
+    - name: Create a Virtual Port Channel (VPC) Interface Policy Group (Server_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: node
+        policy_group: Server_IPG
+        lldp_policy: Enable_LLDP
+        cdp_policy: Enable_CDP
+        port_channel_policy: Static_Channel_On
+        state: present
+
+    - name: Associate Interface Policy Leaf Profile with a Policy Group (Access Port)
+      aci_access_port_to_interface_policy_leaf_profile:
+        <<: *apic_info
+        leaf_interface_profile: LEAF101_IFP
+        access_port_selector: Cat
+        policy_group: Cat_IPG
+        state: present
+
+    - name: Associate Interface Policy Leaf Profile with a Policy Group (VPC)
+      aci_access_port_to_interface_policy_leaf_profile:
+        <<: *apic_info
+        leaf_interface_profile: LEAF101-102_IFP
+        access_port_selector: Server
+        policy_group: Server_IPG
+        state: present

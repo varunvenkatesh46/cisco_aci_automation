@@ -1,0 +1,260 @@
+---
+# Tenant Information
+Tenant:
+  fvTenant:
+    attributes:
+      descr: 'This is a DEMO Tenant'
+      dn: uni/tn-DEMO-REST
+      name: DEMO-REST
+
+# VRF Information
+VRF:
+  fvCtx:
+    attributes:
+      bdEnforcedEnable: 'no'
+      descr: ''
+      dn: uni/tn-DEMO-REST/ctx-DEMO-VRF
+      ipDataPlaneLearning: enabled
+      knwMcastAct: permit
+      name: DEMO-VRF
+      pcEnfDir: ingress
+      pcEnfPref: enforced
+
+# BD Information
+BD:
+  fvBD:
+    attributes:
+      arpFlood: 'no'
+      descr: ''
+      dn: uni/tn-DEMO-REST/BD-DEMO-BD
+      intersiteBumTrafficAllow: 'no'
+      intersiteL2Stretch: 'no'
+      ipLearning: 'yes'
+      limitIpLearnToSubnets: 'yes'
+      mac: 00:22:BD:F8:19:FF
+      mcastAllow: 'no'
+      multiDstPktAct: bd-flood
+      name: DEMO-BD
+      type: regular
+      unicastRoute: 'yes'
+      unkMacUcastAct: proxy
+      unkMcastAct: flood
+      v6unkMcastAct: flood
+
+# BD Subnets
+Subnets:
+  - fvSubnet:
+      attributes:
+        annotation: ''
+        ctrl: ''
+        descr: ''
+        dn: uni/tn-DEMO-REST/BD-DEMO-BD/subnet-[10.10.1.254/24]
+        ip: 10.10.1.254/24
+        name: ''
+        nameAlias: ''
+        preferred: 'no'
+        scope: private
+        virtual: 'no'
+  - fvSubnet:
+      attributes:
+        annotation: ''
+        ctrl: ''
+        descr: ''
+        dn: uni/tn-DEMO-REST/BD-DEMO-BD/subnet-[10.10.2.254/24]
+        ip: 10.10.2.254/24
+        name: ''
+        nameAlias: ''
+        preferred: 'no'
+        scope: private
+        virtual: 'no'
+  - fvSubnet:
+      attributes:
+        annotation: ''
+        ctrl: ''
+        descr: ''
+        dn: uni/tn-DEMO-REST/BD-DEMO-BD/subnet-[10.10.3.254/24]
+        ip: 10.10.3.254/24
+        name: ''
+        nameAlias: ''
+        preferred: 'no'
+        scope: public
+        virtual: 'no'
+
+#Application Profile
+ANP:
+  fvAp:
+    attributes:
+      descr: ''
+      dn: uni/tn-DEMO-REST/ap-DEMO-ANP
+      name: DEMO-ANP
+      prio: unspecified
+
+#EPGs
+EPGs:
+  - fvAEPg:
+      attributes:
+        annotation: ''
+        descr: ''
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-WEB
+        exceptionTag: ''
+        floodOnEncap: disabled
+        fwdCtrl: ''
+        hasMcastSource: 'no'
+        isAttrBasedEPg: 'no'
+        matchT: AtleastOne
+        name: WEB
+        pcEnfPref: unenforced
+        prefGrMemb: exclude
+        prio: unspecified
+        shutdown: 'no'
+  - fvAEPg:
+      attributes:
+        annotation: ''
+        descr: ''
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-APP
+        exceptionTag: ''
+        floodOnEncap: disabled
+        fwdCtrl: ''
+        hasMcastSource: 'no'
+        isAttrBasedEPg: 'no'
+        matchT: AtleastOne
+        name: APP
+        pcEnfPref: unenforced
+        prefGrMemb: exclude
+        prio: unspecified
+        shutdown: 'no'
+  - fvAEPg:
+      attributes:
+        annotation: ''
+        descr: ''
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-DB
+        exceptionTag: ''
+        floodOnEncap: disabled
+        fwdCtrl: ''
+        hasMcastSource: 'no'
+        isAttrBasedEPg: 'no'
+        matchT: AtleastOne
+        name: DB
+        pcEnfPref: unenforced
+        prefGrMemb: exclude
+        prio: unspecified
+        shutdown: 'no'
+
+# Filters
+Filters:
+  - vzFilter:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/flt-ICMP_FILTER
+        name: ICMP_FILTER
+  - vzFilter:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/flt-WEB_FILTER
+        name: WEB_FILTER
+
+# Filter Entries
+FilterEntries:
+  - vzEntry:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/flt-ICMP_FILTER/e-ping
+        etherT: ip
+        name: ping
+        prot: icmp
+  - vzEntry:
+      attributes:
+        dFromPort: http
+        dToPort: http
+        descr: ''
+        dn: uni/tn-DEMO-REST/flt-WEB_FILTER/e-http
+        etherT: ip
+        name: http
+        prot: tcp
+  - vzEntry:
+      attributes:
+        dFromPort: https
+        dToPort: https
+        descr: ''
+        dn: uni/tn-DEMO-REST/flt-WEB_FILTER/e-https
+        etherT: ip
+        name: https
+        prot: tcp
+
+# Contracts
+Contracts:
+  - vzBrCP:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/brc-WEB-APP-CONTRACT
+        name: WEB-APP-CONTRACT
+        scope: context
+  - vzBrCP:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/brc-APP-DB-CONTRACT
+        name: APP-DB-CONTRACT
+        scope: context
+
+#Contract Subjects
+Subjects:
+  - vzSubj:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/brc-WEB-APP-CONTRACT/subj-WEB-APP-SUBJECTS
+        name: WEB-APP-SUBJECTS
+        revFltPorts: 'yes'
+  - vzSubj:
+      attributes:
+        descr: ''
+        dn: uni/tn-DEMO-REST/brc-APP-DB-CONTRACT/subj-APP-DB-SUBJECTS
+        name: APP-DB-SUBJECTS
+        revFltPorts: 'yes'
+
+#Subject Entries
+SubjectEntries:
+  - vzRsSubjFiltAtt:
+      attributes:
+        action: permit
+        dn: uni/tn-DEMO-REST/brc-WEB-APP-CONTRACT/subj-WEB-APP-SUBJECTS/rssubjFiltAtt-WEB_FILTER
+        tnVzFilterName: WEB_FILTER
+  - vzRsSubjFiltAtt:
+      attributes:
+        action: permit
+        dn: uni/tn-DEMO-REST/brc-WEB-APP-CONTRACT/subj-WEB-APP-SUBJECTS/rssubjFiltAtt-ICMP_FILTER
+        tnVzFilterName: ICMP_FILTER
+  - vzRsSubjFiltAtt:
+      attributes:
+        action: permit
+        dn: uni/tn-DEMO-REST/brc-APP-DB-CONTRACT/subj-APP-DB-SUBJECTS/rssubjFiltAtt-WEB_FILTER
+        tnVzFilterName: WEB_FILTER
+  - vzRsSubjFiltAtt:
+      attributes:
+        action: permit
+        dn: uni/tn-DEMO-REST/brc-APP-DB-CONTRACT/subj-APP-DB-SUBJECTS/rssubjFiltAtt-ICMP_FILTER
+        tnVzFilterName: ICMP_FILTER
+
+#Consumer COntract
+BindContracts:
+  - fvRsCons:
+      attributes:
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-WEB/rscons-WEB-APP-CONTRACT
+        tnVzBrCPName: WEB-APP-CONTRACT
+  - fvRsProv:
+      attributes:
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-APP/rsprov-WEB-APP-CONTRACT
+        tnVzBrCPName: WEB-APP-CONTRACT
+  - fvRsCons:
+      attributes:
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-APP/rscons-APP-DB-CONTRACT
+        tnVzBrCPName: APP-DB-CONTRACT
+  - fvRsProv:
+      attributes:
+        dn: uni/tn-DEMO-REST/ap-DEMO-ANP/epg-DB/rsprov-APP-DB-CONTRACT
+        tnVzBrCPName: APP-DB-CONTRACT
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+{
+	"fabricHIfPol": {
+		"attributes": {
+			"autoNeg": "on",
+			"descr": "",
+			"dn": "uni/infra/hintfpol-{{LINKLEVELNAME}}",
+			"fecMode": "inherit",
+			"linkDebounce": "100",
+			"name": "{{LINKLEVELNAME}}",
+			"nameAlias": "",
+			"ownerKey": "",
+			"ownerTag": "",
+			"speed": "{{LINKSPEED}}"
+		}
+	}
+}

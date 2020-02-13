@@ -1,0 +1,60 @@
+---
+- name: Deploy Interface Selectors
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Create Leaf-1 Port Block
+      aci_rest:
+        <<: *apic_info
+        use_proxy: no
+        path: /api/mo/.json
+        method: post
+        content:
+          infraHPortS:
+            attributes:
+              dn: uni/infra/accportprof-LEAF101_IFP/hports-Cat-typ-range
+              name: Cat
+              type: range
+
+    - name: Create VPC Port Block
+      aci_rest:
+        <<: *apic_info
+        use_proxy: no
+        path: /api/mo/.json
+        method: post
+        content:
+          infraHPortS:
+            attributes:
+              dn: uni/infra/accportprof-LEAF101-102_IFP/hports-Server-typ-range
+              name: Server
+              type: range
+
+    - name: Associate an access port block (single port) to an interface selector
+      aci_access_port_block_to_access_port:
+        <<: *apic_info
+        leaf_interface_profile: LEAF101_IFP
+        access_port_selector: Cat
+        leaf_port_blk: Cat
+        from_port: "1"
+        to_port: "1"
+        output_level: info
+        state: present
+
+    - name: Associate an VPC port block (single port) to an interface selector
+      aci_access_port_block_to_access_port:
+        <<: *apic_info
+        leaf_interface_profile: LEAF101-102_IFP
+        access_port_selector: Server
+        leaf_port_blk: Server
+        from_port: "3"
+        to_port: "3"
+        output_level: info
+        state: present

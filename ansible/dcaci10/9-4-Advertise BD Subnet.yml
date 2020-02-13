@@ -1,0 +1,49 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Advertise DB Subnet
+      aci_bd_subnet:
+        <<: *apic_info
+        tenant: "{{item.tenant}}"
+        bd: "{{item.bd}}"
+        gateway: "{{item.gateway}}"
+        mask: "{{item.mask}}"
+        scope: public
+        state: present
+      with_items:
+        - tenant: Sales
+          bd: DB_BD
+          gateway: 10.0.2.254
+          mask: 24
+          
+
+    - name: associate L3OUT to DB BD
+      aci_bd_to_l3out:
+        <<: *apic_info
+        tenant: Sales
+        bd: DB_BD
+        l3out: OSPF_L3Out
+
+    - name: Apply Consumer contract to L3OUT EPG
+      aci_rest:
+        <<: *apic_info
+        use_proxy: no
+        path: "{{ item.path }}"
+        method: post
+        content: "{{item.content}}"
+      with_items:
+        - path: /api/mo/uni/tn-Sales/out-OSPF_L3Out/instP-Cat_ExtNet.json
+          content:
+            fvRsCons:
+              attributes:
+                tnVzBrCPName: FileServices_Ct

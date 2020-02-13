@@ -1,0 +1,36 @@
+---
+- name:               Build APIC Configuration from Scratch
+  hosts:              apic
+  connection:         local
+  gather_facts:       no
+  vars:
+    apic_info:        &apic_info
+      host:           "{{ apic_ip }}"
+      username:       "{{ apic_username }}"
+      password:       "{{ apic_password }}"
+
+  tasks:
+  - name: Create VLAN Pool
+    aci_vlan_pool:
+      <<: *apic_info
+      validate_certs: no
+      pool: DEMO-VLAN-POOL
+      mode: dynamic
+      state: present
+    loop_control:
+      pause: .5
+
+  - name: Create VLAN Pool BLock
+    aci_vlan_pool_encap_block:
+      <<: *apic_info
+      validate_certs: no
+      name: DEMO-VLAN-BLOCK
+      pool: DEMO-VLAN-POOL
+      pool_mode: dynamic
+      start: 1230
+      end: 1240
+      state: present
+    loop_control:
+      pause: .5
+      
+  

@@ -1,0 +1,57 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Configure BGP Route Reflector
+      aci_rest:
+        <<: *apic_info
+        path: "{{ item.path }}"
+        method: post
+        content: "{{item.content}}"
+      with_items:
+        - path: /api/mo/uni/fabric.json
+          content:
+            bgpInstPol:
+              attributes:
+                name: default
+        - path: /api/mo/uni/fabric/bgpInstP-default.json
+          content:
+            bgpAsP:
+              attributes:
+                asn: "65001"
+        - path: /api/mo/uni/fabric/bgpInstP-default/rr.json
+          content:
+            bgpRRNodePEp:
+              attributes:
+                id: "103"
+                podId: "1"
+
+    - name: Add BGP RR Policy to POD Policy Group
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/uni/fabric/funcprof/podpgrp-POD-1-PG.json
+        method: post
+        content:
+          fabricRsPodPGrpBGPRRP:
+            attributes:
+              tnBgpInstPolName: default
+
+    - name: Get Pod Profile Information
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/uni/fabric/podprof-POD-1-PROFILE/pods-POD1-typ-range/rspodPGrp.json
+        method: get
+      register: pod_profile
+
+    - name: Display Pod Profile information
+      debug:
+        msg: "{{ pod_profile }}"

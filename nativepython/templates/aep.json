@@ -1,0 +1,12 @@
+{
+	"infraAttEntityP": {
+		"attributes": {
+			"descr": "",
+			"dn": "uni/infra/attentp-{{AEP}}",
+			"name": "{{AEP}}",
+			"nameAlias": "",
+			"ownerKey": "",
+			"ownerTag": ""
+		}
+	}
+}

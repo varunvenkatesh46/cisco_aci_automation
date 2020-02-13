@@ -1,0 +1,14 @@
+{
+	"lldpIfPol": {
+		"attributes": {
+			"adminRxSt": "{{adminRxSt}}",
+			"adminTxSt": "{{adminTxSt}}",
+			"descr": "",
+			"dn": "uni/infra/lldpIfP-{{LLDPENABLEPOLNAME}}",
+			"name": "{{LLDPENABLEPOLNAME}}",
+			"nameAlias": "",
+			"ownerKey": "",
+			"ownerTag": ""
+		}
+	}
+}

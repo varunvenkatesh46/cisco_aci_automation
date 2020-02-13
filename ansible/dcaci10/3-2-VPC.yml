@@ -1,0 +1,56 @@
+---
+- name:               Deploy VPC Configuration
+  hosts:              apic
+  connection:         local
+  gather_facts:       no
+  vars:
+    apic_info:        &apic_info
+      host:           "{{ apic_ip }}"
+      username:       "{{ apic_username }}"
+      password:       "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+  - name: Add vPC Protection Group
+    aci_switch_policy_vpc_protection_group:
+      <<: *apic_info
+      protection_group: LEAF101-102_ProtectionGroup
+      protection_group_id: 100
+      switch_1_id: 101
+      switch_2_id: 102
+      state: present
+
+  - name: creating a VPC Profile with description
+    aci_switch_policy_leaf_profile:
+      <<: *apic_info
+      leaf_profile: LEAF101-102_SWP
+      description: VPC Switch Profile
+      state: present
+
+  - name: adding a VPC Leaf selector
+    aci_switch_leaf_selector:
+      <<: *apic_info
+      leaf_profile: LEAF101-102_SWP
+      leaf: LEAF101-102
+      leaf_node_blk: LEAF101-102
+      from: 101
+      to: 102
+      state: present
+
+  - name: Associating an VPC interface selector profile to a VPC profile
+    aci_interface_selector_to_switch_policy_leaf_profile:
+      <<: *apic_info
+      leaf_profile: LEAF101-102_SWP
+      interface_selector: LEAF101-102_IFP
+      state: present
+
+  - name: Query our vPC Protection Group
+    aci_switch_policy_vpc_protection_group:
+      <<: *apic_info
+      protection_group: LEAF101-102_ProtectionGroup
+      state: query
+    register: query_result      
+
+  # - name: Show VPC status
+  #   debug:
+  #     var: query_result

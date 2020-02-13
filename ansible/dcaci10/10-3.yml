@@ -1,0 +1,67 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: vcenter
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+    vmware_info: &vmware_info
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: no
+
+
+  tasks:
+    - name: Create dvSwitch
+      vmware_dvswitch:
+        <<: *vmware_info
+        datacenter: TPSG
+        switch: dvSwitch
+        version: 6.0.0
+        mtu: 9000
+        uplink_quantity: 2
+        discovery_protocol: lldp
+        discovery_operation: both
+        state: present
+
+    - name: Add Host to dVS
+      vmware_dvs_host:
+        <<: *vmware_info
+        esxi_hostname: '192.168.61.55'
+        switch_name: dvSwitch
+        vmnics:
+          - vmnic4
+          - vmnic5
+        state: present
+
+    - name: Create vlan portgroup
+      vmware_dvs_portgroup:
+        <<: *vmware_info
+        portgroup_name: vlan-123-portrgoup
+        switch_name: dvSwitch
+        vlan_id: '123'
+        num_ports: '120'
+        portgroup_type: earlyBinding
+        state: present
+
+
+    - name: Change network adapter settings of virtual machine
+      vmware_guest_network:
+        <<: *vmware_info
+        datacenter: TPSG
+        name: adm1
+        gather_network_info: false
+        esxi_hostname: '192.168.61.55'
+        networks:
+          - name: "vlan-123-portrgoup"
+            label: "Network adapter 1"
+            state: present
+            
+
+   

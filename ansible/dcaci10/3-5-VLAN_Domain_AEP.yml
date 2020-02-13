@@ -1,0 +1,77 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Create VLAN Pool
+      aci_vlan_pool:
+        <<: *apic_info
+        pool: Sales_Phydom_VLANs
+        mode: static
+        state: present
+        output_level: debug
+
+    - name: Create VLAN Pool BLock
+      aci_vlan_pool_encap_block:
+        <<: *apic_info
+        name: Sales_VLAN_Pool
+        pool: Sales_Phydom_VLANs
+        pool_mode: static
+        start: 10
+        end: 50
+        state: present
+
+    - name: Add a new physical domain
+      aci_domain:
+        <<: *apic_info
+        domain: Sales_PhyDom
+        domain_type: phys
+        state: present
+
+    - name: Bind a physical domain to VLAN pool
+      aci_domain_to_vlan_pool:
+        <<: *apic_info
+        domain: Sales_PhyDom
+        domain_type: phys
+        pool: Sales_Phydom_VLANs
+        pool_allocation_mode: static
+        state: present
+
+    - name: Add a new AEP
+      aci_aep:
+        <<: *apic_info
+        aep: HOST_AAEP
+        description: default
+        state: present
+
+    - name: Add AEP to domain binding
+      aci_aep_to_domain: &binding_present
+        <<: *apic_info
+        aep: HOST_AAEP
+        domain: Sales_PhyDom
+        domain_type: phys
+        state: present
+
+    - name: Bind AEP to Leaf Access Port Policy Group (Cat_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: leaf
+        policy_group: Cat_IPG
+        aep: HOST_AAEP
+        state: present
+
+    - name: Bind AEP to Virtual Port Channel (VPC) Interface Policy Group (Server_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: node
+        policy_group: Server_IPG
+        aep: HOST_AAEP
+        state: present

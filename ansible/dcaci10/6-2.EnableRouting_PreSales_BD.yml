@@ -1,0 +1,29 @@
+---
+- name: Deploy Application Profile
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Enable Unicast Routing on Presales_BD
+      aci_bd:
+        <<: *apic_info
+        tenant: Sales
+        bd: Presales_BD
+        enable_routing: yes
+        state: present
+
+    - name: Create a subnet on Presales_BD
+      aci_bd_subnet:
+        <<: *apic_info
+        tenant: Sales
+        bd: Presales_BD
+        gateway: 10.0.1.254
+        mask: 24
+        state: present

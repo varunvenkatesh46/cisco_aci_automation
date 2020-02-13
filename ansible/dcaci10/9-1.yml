@@ -1,0 +1,118 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Create VLAN Pool
+      aci_vlan_pool:
+        <<: *apic_info
+        pool: ExtL3_VLANs
+        mode: static
+        state: present
+        output_level: debug
+
+    - name: Create VLAN Pool BLock
+      aci_vlan_pool_encap_block:
+        <<: *apic_info
+        name: ExtL3_VLANs
+        pool: ExtL3_VLANs
+        pool_mode: static
+        start: 51
+        end: 60
+        state: present
+
+    - name: Add a new L3 domain
+      aci_domain:
+        <<: *apic_info
+        domain: ExtL3Dom
+        domain_type: l3dom
+        state: present
+
+    - name: Bind a L3 domain to VLAN pool
+      aci_domain_to_vlan_pool:
+        <<: *apic_info
+        domain: ExtL3Dom
+        domain_type: l3dom
+        pool: ExtL3_VLANs
+        pool_allocation_mode: static
+        state: present
+
+    - name: Add a new AEP
+      aci_aep:
+        <<: *apic_info
+        aep: EXTERNAL_SWITCH_AAEP
+        description: default
+        state: present
+
+    - name: Add AEP to domain binding
+      aci_aep_to_domain:
+        <<: *apic_info
+        aep: EXTERNAL_SWITCH_AAEP
+        domain: ExtL3Dom
+        domain_type: l3dom
+        state: present
+
+    - name: Create a Leaf Access Port Policy Group (ExtL3_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: leaf
+        policy_group: ExtL3_IPG
+        lldp_policy: Enable_LLDP
+        aep: EXTERNAL_SWITCH_AAEP
+        state: present
+
+    - name: Create Leaf-1 Port Block
+      aci_rest:
+        <<: *apic_info
+        use_proxy: no
+        path: /api/mo/.json
+        method: post
+        content:
+          infraHPortS:
+            attributes:
+              dn: uni/infra/accportprof-LEAF102_IFP/hports-ExtL3Cat-typ-range
+              name: ExtL3Cat
+              type: range
+
+    - name: Associate an access port block (single port) to an interface selector
+      aci_access_port_block_to_access_port:
+        <<: *apic_info
+        leaf_interface_profile: LEAF102_IFP
+        access_port_selector: ExtL3Cat
+        leaf_port_blk: ExtL3Cat
+        from_port: "1"
+        to_port: "1"
+        output_level: debug
+        state: present
+
+    - name: Associate Interface Policy Leaf Profile with a Policy Group (Access Port)
+      aci_access_port_to_interface_policy_leaf_profile:
+        <<: *apic_info
+        leaf_interface_profile: LEAF102_IFP
+        access_port_selector: ExtL3Cat
+        policy_group: ExtL3_IPG
+        state: present
+
+    - name: Bind AEP to Leaf Access Port Policy Group (Cat_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: leaf
+        policy_group: Cat_IPG
+        aep: HOST_AAEP
+        state: present
+
+    - name: Bind AEP to Virtual Port Channel (VPC) Interface Policy Group (Server_IPG)
+      aci_interface_policy_leaf_policy_group:
+        <<: *apic_info
+        lag_type: node
+        policy_group: Server_IPG
+        aep: HOST_AAEP
+        state: present

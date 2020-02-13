@@ -1,0 +1,85 @@
+---
+tenant_info:
+  name: DEMO
+  vrfs:
+    - name: VRF1
+      bds:
+        - name: BD1
+          subnets:
+            - 10.1.1.254/24
+            - 10.1.2.254/24
+            - 10.1.3.254/24
+    - name: VRF2
+      bds:
+        - name: BD2
+          subnets:
+            - 10.2.1.254/24
+            - 10.2.2.254/24
+            - 10.2.3.254/24
+
+  anps:
+    - name: 3-TIER-APP
+      epgs:
+        - name: WEB
+          bd: BD1
+          conscontracts:
+            - WEB-APP-CONTRACT
+        - name: APP
+          bd: BD1
+          conscontracts:
+            - APP-DB-CONTRACT
+          provcontracts:
+            - WEB-APP-CONTRACT
+        - name: DB
+          bd: BD1
+          provcontracts:
+            - APP-DB-CONTRACT
+
+  contracts:
+    - name: WEB-APP-CONTRACT
+      subjects:
+        - name: WEB-TRAFFIC
+          filters:
+            - WEB-FILTER
+        - name: BASIC-TRAFFIC
+          filters:
+            - BASIC-FILTER
+    - name: APP-DB-CONTRACT
+      subjects:
+        - name: FILE-TRAFFIC
+          filters:
+            - FILE-FILTER
+        - name: BASIC-TRAFFIC
+          filters:
+            - BASIC-FILTER
+
+  filters:
+    - name: WEB-FILTER
+      entries:
+        - name: HTTP
+          dFromPort: 80
+          dToPort: 80
+          prot: 6
+          etherT: "ip"
+        - name: HTTPS
+          dFromPort: 443
+          dToPort: 443
+          prot: 6
+          etherT: "ip"
+    - name: FILE-FILTER
+      entries:
+        - name: FTP
+          dFromPort: 21
+          dToPort: 21
+          prot: 6
+          etherT: "ip"
+        - name: SCP
+          dFromPort: 22
+          dToPort: 22
+          prot: 6
+          etherT: "ip"
+    - name: BASIC-FILTER
+      entries:
+        - name: ICMP
+          prot: "icmp"
+          etherT: "ip"

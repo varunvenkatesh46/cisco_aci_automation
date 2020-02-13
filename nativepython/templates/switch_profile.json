@@ -1,0 +1,47 @@
+{
+    "infraNodeP": {
+        "attributes": {
+            "annotation": "",
+            "descr": "",
+            "dn": "uni/infra/nprof-{{SWITCHPROFNAME}}",
+            "name": "{{SWITCHPROFNAME}}",
+            "nameAlias": "",
+            "ownerKey": "",
+            "ownerTag": ""
+        },
+        "children": [{
+                "infraRsAccPortP": {
+                    "attributes": {
+                        "annotation": "",
+                        "tDn": "uni/infra/accportprof-{{INTPROFNAME}}"
+                    }
+                }
+            }, {
+                "infraLeafS": {
+                    "attributes": {
+                        "annotation": "",
+                        "descr": "",
+                        "name": "{{LEAFSELECT}}",
+                        "nameAlias": "",
+                        "ownerKey": "",
+                        "ownerTag": "",
+                        "type": "range"
+                    },
+                    "children": [{
+                            "infraNodeBlk": {
+                                "attributes": {
+                                    "annotation": "",
+                                    "descr": "",
+                                    "from_": "{{NODE1}}",
+                                    "name": "6d3e2f691519a2cb",
+                                    "nameAlias": "",
+                                    "to_": "{{NODE2}}"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

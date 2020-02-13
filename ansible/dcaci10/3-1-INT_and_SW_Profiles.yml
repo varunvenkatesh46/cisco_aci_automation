@@ -1,0 +1,81 @@
+---
+- name: Deploy Interface and Switch Profiles
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Creating  Leaf-1 Interface Profile
+      aci_interface_policy_leaf_profile:
+        <<: *apic_info
+        leaf_interface_profile: LEAF101_IFP
+        description: "Managed by Ansible"
+        state: present
+
+    - name: Creating  Leaf-2 Interface Profile
+      aci_interface_policy_leaf_profile:
+        <<: *apic_info
+        leaf_interface_profile: LEAF102_IFP
+        description: "Managed by Ansible"
+        state: present
+
+    - name: Creating Leaf 1&2 Interface Profile
+      aci_interface_policy_leaf_profile:
+        <<: *apic_info
+        leaf_interface_profile: LEAF101-102_IFP
+        description: "Managed by Ansible"
+        state: present
+
+    - name: Creating a Leaf-1 Switch Profile
+      aci_switch_policy_leaf_profile:
+        <<: *apic_info
+        leaf_profile: LEAF101_SWP
+        description: "Managed by Ansible"
+        state: present
+
+    - name: Adding a switch policy leaf profile selector associated Node Block range
+      aci_switch_leaf_selector:
+        <<: *apic_info
+        leaf_profile: LEAF101_SWP
+        leaf: LEAF101
+        leaf_node_blk: LEAF101
+        from: 101
+        to: 101
+        state: present
+
+    - name: Associating an interface selector profile to a switch Leaf-1 Interface Profile
+      aci_interface_selector_to_switch_policy_leaf_profile:
+        <<: *apic_info
+        leaf_profile: LEAF101_SWP
+        interface_selector: LEAF101_IFP
+        state: present
+
+    - name: Creating a Leaf-2 Switch Profile
+      aci_switch_policy_leaf_profile:
+        <<: *apic_info
+        leaf_profile: LEAF102_SWP
+        description: Leaf-2 Switch Profile
+        state: present
+
+    - name: Adding a Leaf-2 Leaf selector
+      aci_switch_leaf_selector:
+        <<: *apic_info
+        leaf_profile: LEAF102_SWP
+        leaf: LEAF102
+        leaf_node_blk: LEAF102
+        from: 102
+        to: 102
+        state: present
+
+    - name: Associating an interface selector profile to a switch Leaf-2 profile
+      aci_interface_selector_to_switch_policy_leaf_profile:
+        <<: *apic_info
+        leaf_profile: LEAF102_SWP
+        interface_selector: LEAF102_IFP
+        state: present

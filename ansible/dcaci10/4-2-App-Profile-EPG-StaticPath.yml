@@ -1,0 +1,72 @@
+---
+- name: Deploy Application Profile
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Add a new AP
+      aci_ap:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        description: Managed by Ansible
+        state: present
+
+    - name: Add a new EPG
+      aci_epg:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: Web_EPG
+        description: Managed by Ansible
+        bd: Presales_BD
+        state: present
+
+    - name: Add a new physical domain to EPG binding
+      aci_epg_to_domain:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: Web_EPG
+        domain: Sales_PhyDom
+        domain_type: phys
+        state: present
+
+    - name: Deploy Static Path binding for given EPG (Server VPC)
+      aci_static_binding_to_epg:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: Web_EPG
+        encap_id: 11
+        deploy_immediacy: lazy
+        interface_mode: trunk
+        interface_type: vpc
+        pod_id: 1
+        leafs: 101-102
+        interface: "1/3"
+        description: Managed by Ansible
+        state: present
+
+    - name: Deploy Static Path binding for given EPG (Catalyst Port)
+      aci_static_binding_to_epg:
+        <<: *apic_info
+        description: Managed by Ansible
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: Web_EPG
+        encap_id: 21
+        deploy_immediacy: lazy
+        interface_mode: trunk
+        interface_type: switch_port
+        pod_id: 1
+        leafs: 101
+        interface: "1/1"
+        state: present

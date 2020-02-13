@@ -1,0 +1,169 @@
+---
+- name:               Build APIC Configuration from Scratch
+  hosts:              apic
+  connection:         local
+  gather_facts:       no
+  vars:
+    apic_info:        &apic_info
+      host:           "{{ apic_ip }}"
+      username:       "{{ apic_username }}"
+      password:       "{{ apic_password }}"
+
+  vars_files:
+    - vars/demo_tenant.yml
+  
+
+  tasks:
+  - name: Create New Tenant(s)
+    aci_tenant:
+      <<: *apic_info
+      validate_certs: no
+      tenant: "{{item.tenantName}}"
+      state: present
+    with_items:
+      "{{tenants}}"
+    loop_control:
+      pause: .5
+
+
+  - name: Create a New VRF
+    aci_vrf:
+      <<: *apic_info
+      validate_certs: no
+      vrf: "{{item.vrfName}}"
+      tenant: "{{item.tenantName}}"
+      policy_control_preference: enforced
+      policy_control_direction: ingress
+      state: present
+    with_items:
+      "{{vrfs}}"
+    loop_control:
+      pause: .5
+
+  - name: Add Bridge Domain
+    aci_bd:
+      <<: *apic_info
+      validate_certs: no
+      tenant: "{{item.tenantName}}"
+      bd: "{{item.bdName}}"
+      vrf: "{{item.vrfName}}"
+      state: present
+    with_items:
+      "{{bridgeDomains}}"
+    loop_control:
+      pause: .5
+
+  - name: Create BD Subnet(s)
+    aci_bd_subnet:
+      <<: *apic_info
+      validate_certs: no
+      tenant: "{{item.tenantName}}"
+      bd: "{{item.bdName}}"
+      gateway: "{{item.gwAddress}}"
+      mask: "{{item.mask}}"
+      state: present
+    with_items:
+      "{{bdSubnets}}"
+    loop_control:
+      pause: .5
+
+  - name: Create a New App Profile
+    aci_ap:
+      <<: *apic_info
+      validate_certs: no
+      tenant: "{{item.tenantName}}"
+      ap: "{{item.apName}}"
+      state: present
+    with_items:
+      "{{appProfiles}}"
+    loop_control:
+      pause: .5
+
+  - name: Create a New EPG
+    aci_epg:
+      <<: *apic_info
+      validate_certs: no
+      tenant: "{{item.tenantName}}"
+      ap: "{{item.apName}}"
+      epg: "{{item.epgName}}"
+      bd: "{{item.bdName}}"
+      state: present
+    with_items:
+      "{{epgs}}"
+    loop_control:
+      pause: .5
+
+# Create a filter
+  - name:             Create Filter
+    aci_filter:
+      <<: *apic_info
+      validate_certs: no
+      use_proxy:      no
+      tenant:         "{{item.tenantName}}"
+      filter:         "{{item.filterName}}"
+      state:          "present"
+    with_items:
+      "{{filters}}"
+    register:         flt
+
+  # Create a new filter entry
+  - name:             Create Filter Entry
+    aci_filter_entry:
+      <<: *apic_info
+      validate_certs: no
+      use_proxy:      no
+      filter:         "{{item.filterName}}"
+      entry:          "{{item.entryname}}"
+      tenant:         "{{item.tenantName}}"
+      ether_type:     "ip"
+      ip_protocol:    "{{item.subj_name}}"
+      dst_port:       "{{item.dst_port | default('unspecified')}}"
+      state:          "present"
+    with_items:
+      "{{filter_entries}}"
+    register:         flt_entry
+
+  # Create contract
+  - name: ENSURE TENANT CONTRACTS EXIST
+    aci_contract:
+      <<: *apic_info
+      state: "present"
+      validate_certs: False
+      tenant: "{{item.tenantName}}"
+      contract: "{{ item.contractName }}"
+      scope: "context"
+      description: "Contract Created Using Ansible"
+    with_items: "{{contracts}}"
+
+  - name: ENSURE CONTRACTS HAVE CONTRACT SUBJECTS
+    aci_contract_subject:
+      <<: *apic_info
+      state: "present"
+      validate_certs: False
+      tenant: "{{item.tenantName}}"
+      contract: "{{ item.contractName }}"
+      subject: "{{ item.subjectName }}"
+    with_items: "{{subjects}}"
+
+  - name: ENSURE CONTRACTS SUBJECTS ARE ASSOCIATED WITH FILTERS
+    aci_contract_subject_to_filter:
+      <<: *apic_info
+      state: "present"
+      validate_certs: False
+      tenant: "{{item.tenantName}}"
+      contract: "{{ item.contractName }}"
+      subject: "{{ item.subjectName }}"
+      filter: "{{ item.filterName }}"
+    with_items: "{{subjectfilters}}"
+
+  - name: ENSURE EPG IS ASSOCIATED TO CONTRACTS
+    aci_epg_to_contract:
+      <<: *apic_info
+      state: "present"
+      validate_certs: False
+      tenant: "{{item.tenantName}}"
+      ap: "{{item.apName}}"
+      epg: "{{item.epgName}}"
+      contract: "{{ item.contractName }}"
+      contract_type: "{{ item.contract_type }}"
+    with_items: "{{ epg_contracts }}"

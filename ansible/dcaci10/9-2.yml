@@ -1,0 +1,89 @@
+---
+- name: Build APIC Configuration from Scratch
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Add a new L3Out
+      aci_l3out:
+        <<: *apic_info
+        tenant: Sales
+        name: OSPF_L3Out
+        description: L3Out for Production tenant
+        domain: ExtL3Dom
+        vrf: Presales_VRF
+        l3protocol: ospf
+        route_control: export
+        state: present
+
+    - name: Configure OSPF
+      aci_rest:
+        <<: *apic_info
+        use_proxy: no
+        path: "{{ item.path }}"
+        method: post
+        content: "{{item.content}}"
+      with_items:
+        - path: /api/mo/uni/tn-Sales/out-OSPF_L3Out.json
+          content:
+            ospfExtP:
+              attributes:
+                areaCost: "1"
+                areaCtrl: redistribute,summary
+                areaId: backbone
+                areaType: regular
+        - path: /api/mo/uni/tn-Sales/out-OSPF_L3Out.json
+          content:
+            l3extLNodeP:
+              attributes:
+                name: L102
+        - path: /api/mo/uni/tn-Sales/out-OSPF_L3Out/lnodep-L102.json
+          content:
+            l3extRsNodeL3OutAtt:
+              attributes:
+                rtrId: 10.1.1.1
+                rtrIdLoopBack: "yes"
+                tDn: topology/pod-1/node-102
+        - path: /api/mo/uni/tn-Sales/out-OSPF_L3Out/lnodep-L102.json
+          content:
+            l3extLIfP:
+              attributes:
+                name: OSPF_L3Out_IP
+        - path: /api/mo/uni/tn-Sales/out-OSPF_L3Out/lnodep-L102/lifp-OSPF_L3Out_IP.json
+          content:
+            l3extRsPathL3OutAtt:
+              attributes:
+                addr: 172.16.1.1/30
+                encap: vlan-51
+                encapScope: local
+                ifInstT: ext-svi
+                mode: regular
+                mtu: "1500"
+                tDn: topology/pod-1/paths-102/pathep-[eth1/1]
+
+    - name: Add a new ExtEpg
+      aci_l3out_extepg:
+        <<: *apic_info
+        tenant: Sales
+        l3out: OSPF_L3Out
+        name: Cat_ExtNet
+        description: ExtEpg for Production L3Out
+        state: present
+
+    - name: Add a new External Subnet
+      aci_l3out_extsubnet:
+        <<: *apic_info
+        tenant: Sales
+        l3out: OSPF_L3Out
+        extepg: Cat_ExtNet
+        description: External Subnet for Production ExtEpg
+        network: 0.0.0.0/0
+        scope: export-rtctrl
+        state: present

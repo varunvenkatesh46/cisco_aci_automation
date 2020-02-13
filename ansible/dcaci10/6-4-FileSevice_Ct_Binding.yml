@@ -1,0 +1,27 @@
+---
+- name: Deploy Application Profile
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Add a new contract to EPG binding
+      aci_epg_to_contract:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: "{{ item.epg }}"
+        contract: FileServices_Ct
+        contract_type: "{{ item.contract_type }}"
+        state: present
+      with_items:
+        - epg: App_EPG
+          contract_type: consumer
+        - epg: DB_EPG
+          contract_type: provider

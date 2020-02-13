@@ -1,0 +1,37 @@
+{
+    "infraHPortS": {
+        "attributes": {
+            "annotation": "",
+            "descr": "",
+            "dn": "uni/infra/accportprof-{{INTPROFNAME}}/hports-{{INTSELNAME}}-typ-range",
+            "name": "{{INTSELNAME}}",
+            "nameAlias": "",
+            "ownerKey": "",
+            "ownerTag": "",
+            "type": "range"
+        },
+        "children": [{
+                "infraRsAccBaseGrp": {
+                    "attributes": {
+                        "annotation": "",
+                        "fexId": "101",
+                        "tDn": "uni/infra/funcprof/accbundle-{{VPCPOLGRP}}"
+                    }
+                }
+            }, {
+                "infraPortBlk": {
+                    "attributes": {
+                        "annotation": "",
+                        "descr": "",
+                        "fromCard": "{{CARD}}",
+                        "fromPort": "{{PORT}}",
+                        "name": "block2",
+                        "nameAlias": "",
+                        "toCard": "{{CARD}}",
+                        "toPort": "{{PORT}}"
+                    }
+                }
+            }
+        ]
+    }
+}

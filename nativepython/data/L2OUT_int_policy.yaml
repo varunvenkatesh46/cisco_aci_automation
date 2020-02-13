@@ -1,0 +1,38 @@
+---
+
+# Link Level
+LINKLEVELNAME: DEMO-10G
+LINKSPEED:
+  G
+# CDP
+CDPENABLEPOLNAME: CDP-ENABLE
+ADMINSTATUS: enabled
+#LLDP
+LLDPENABLEPOLNAME: LLDP-ENABLE
+adminRxSt: enabled
+adminTxSt: enabled
+#AAEP
+AEP: DEMO-AEP
+
+#Portchannel
+PCPOLICYNAME: PC-POLICY
+PCMODE: 'off'
+
+#VPC Policy Group
+VPCPOLGRP: VPC-POL-ESX
+
+#Interface Profile
+INTPROFNAME: ESX-PROFILE
+
+#Interface Selector
+INTSELNAME: ETH1_3
+CARD: 1
+PORT: 3
+
+#Switch Profile
+INTPROFNAME: ESX-Leaf1-Leaf2
+LEAFSELECT: Both
+NODE1: 101
+NODE2: 102
+
+

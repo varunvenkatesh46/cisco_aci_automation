@@ -1,0 +1,27 @@
+---
+- name: Deploy Application Profile
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Add a VMM domain to EPG binding
+      aci_epg_to_domain:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: "{{ item.epg }}"
+        domain: vCenter_VMM
+        domain_type: vmm
+        vm_provider: vmware
+        state: present
+      with_items:
+        - epg: Web_EPG
+        - epg: App_EPG
+        - epg: DB_EPG

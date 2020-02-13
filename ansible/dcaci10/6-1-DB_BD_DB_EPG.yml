@@ -1,0 +1,65 @@
+---
+- name: Deploy Application Profile
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Add Bridge Domain
+      aci_bd:
+        <<: *apic_info
+        tenant: Sales
+        bd: DB_BD
+        vrf: Presales_VRF
+        state: present
+      
+    - name: Create a subnet
+      aci_bd_subnet:
+        <<: *apic_info
+        tenant: Sales
+        bd: DB_BD
+        gateway: 10.0.2.254
+        mask: 24
+        state: present
+
+    - name: Add a new EPG
+      aci_epg:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: DB_EPG
+        description: Managed by Ansible
+        bd: DB_BD
+        state: present
+
+    - name: Add a new physical domain to EPG binding
+      aci_epg_to_domain:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: DB_EPG
+        domain: Sales_PhyDom
+        domain_type: phys
+        state: present
+
+    - name: Deploy Static Path binding for given EPG (Server VPC)
+      aci_static_binding_to_epg:
+        <<: *apic_info
+        tenant: Sales
+        ap: eCommerce_AP
+        epg: DB_EPG
+        encap_id: 13
+        deploy_immediacy: lazy
+        interface_mode: trunk
+        interface_type: vpc
+        pod_id: 1
+        leafs: 101-102
+        interface: "1/3"
+        description: Managed by Ansible
+        state: present

@@ -1,0 +1,13 @@
+{
+	"cdpIfPol": {
+		"attributes": {
+			"adminSt": "{{ADMINSTATUS}}",
+			"descr": "",
+			"dn": "uni/infra/cdpIfP-{{CDPENABLEPOLNAME}}",
+			"name": "{{CDPENABLEPOLNAME}}",
+			"nameAlias": "",
+			"ownerKey": "",
+			"ownerTag": ""
+		}
+	}
+}

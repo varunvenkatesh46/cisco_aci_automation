@@ -1,0 +1,96 @@
+---
+- name: Deploy NTP Policy
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    apic_info: &apic_info
+      host: "{{ apic_ip }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+      use_proxy: no
+
+  tasks:
+    - name: Create NTP Policy
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/.json
+        method: post
+        content:
+          datetimePol:
+            attributes:
+              StratumValue: "8"
+              adminSt: enabled
+              authSt: disabled
+              descr: "Managed by Ansible"
+              dn: uni/fabric/time-NTP
+              masterMode: disabled
+              name: NTP
+              serverState: disabled
+
+    - name: Add NTP Server
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/.json
+        method: post
+        content:
+          datetimeNtpProv:
+            attributes:
+              descr: "Managed by Ansible"
+              dn: uni/fabric/time-NTP/ntpprov-10.1.91.10
+              name: 10.1.91.10
+            children:
+              - datetimeRsNtpProvToEpg:
+                  attributes:
+                    tDn: uni/tn-mgmt/mgmtp-default/oob-default
+
+    - name: Create POD Policy Group
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/.json
+        method: post
+        content:
+          fabricPodPGrp:
+            attributes:
+              descr: "Managed by Ansible"
+              dn: uni/fabric/funcprof/podpgrp-POD-1-PG
+              name: POD-1-PG
+            children:
+              - fabricRsTimePol:
+                  attributes:
+                    tnDatetimePolName: NTP
+
+    - name: Create POD Profile
+      aci_rest:
+        <<: *apic_info
+        path: /api/mo/.json
+        method: post
+        content:
+          fabricPodP:
+            attributes:
+              descr: "Managed by Ansible"
+              dn: uni/fabric/podprof-POD-1-PROFILE
+              name: POD-1-PROFILE
+            children:
+              - fabricPodS:
+                  attributes:
+                    descr: "Managed by Ansible"
+                    name: POD1
+                    type: range
+                  children:
+                    - fabricRsPodPGrp:
+                        attributes:
+                          tDn: uni/fabric/funcprof/podpgrp-POD-1-PG
+                    - fabricPodBlk:
+                        attributes:
+                          descr: "Managed by Ansible"
+                          from_: "1"
+                          name: 5bbbfb2833710a5d
+                          to_: "1"
+  
+  # - name: Delete POD Profile
+  #   aci_rest:
+  #     <<: *apic_info
+  #     path:           /api/mo/uni/fabric/funcprof/podpgrp-POD-1-PG.json
+  #     method:         delete

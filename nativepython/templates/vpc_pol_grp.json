@@ -1,0 +1,168 @@
+{
+	"infraAccBndlGrp": {
+		"attributes": {
+			"annotation": "",
+			"descr": "",
+			"dn": "uni/infra/funcprof/accbundle-{{VPCPOLGRP}}",
+			"lagT": "node",
+			"name": "{{VPCPOLGRP}}",
+			"nameAlias": "",
+			"ownerKey": "",
+			"ownerTag": ""
+		},
+		"children": [
+			{
+				"infraRsStpIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnStpIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsQosSdIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnQosSdIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsQosIngressDppIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnQosDppPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsStormctrlIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnStormctrlIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsQosEgressDppIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnQosDppPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsMonIfInfraPol": {
+					"attributes": {
+						"annotation": "",
+						"tnMonInfraPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsMcpIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnMcpIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsCdpIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnCdpIfPolName": "{{CDPENABLEPOLNAME}}"
+					}
+				}
+			},
+			{
+				"infraRsL2IfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnL2IfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsQosDppIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnQosDppPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsCoppIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnCoppIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsMacsecIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnMacsecIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsQosPfcIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnQosPfcIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsHIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnFabricHIfPolName": "{{LINKLEVELNAME}}"
+					}
+				}
+			},
+			{
+				"infraRsL2PortSecurityPol": {
+					"attributes": {
+						"annotation": "",
+						"tnL2PortSecurityPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsL2PortAuthPol": {
+					"attributes": {
+						"annotation": "",
+						"tnL2PortAuthPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsLacpPol": {
+					"attributes": {
+						"annotation": "",
+						"tnLacpLagPolName": "{{PCPOLICYNAME}}"
+					}
+				}
+			},
+			{
+				"infraRsFcIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnFcIfPolName": ""
+					}
+				}
+			},
+			{
+				"infraRsLldpIfPol": {
+					"attributes": {
+						"annotation": "",
+						"tnLldpIfPolName": "{{LLDPENABLEPOLNAME}}"
+					}
+				}
+			}
+		]
+	}
+}
