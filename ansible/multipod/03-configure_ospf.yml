@@ -6,12 +6,17 @@
 
 
   tasks:
-  - name: configure interface settings
+  - name: Configure OSPF
     ios_config:
       lines:
         - router ospf 1
+
+  - name: Configure OSPF Settings
+    ios_config:
+      lines:
         - router-id 1.1.1.1
         - log-adjacency-changes
+      parents: router ospf 1
 
   - name: Run show ip protocol on remote devices
     ios_command:
