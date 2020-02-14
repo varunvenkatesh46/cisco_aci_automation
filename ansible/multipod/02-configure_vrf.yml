@@ -1,18 +1,19 @@
 ---
-- name: 01. Configure IPN Routers
+- name: 02. Configure VRF
   hosts:
     - ios-xe-azure
   gather_facts: no
 
 
   tasks:
-  - name: Enable LLDP service
-    ios_lldp:
-      state: present
+  - name: configure a vrf named management
+    ios_vrf:
+      name: vrf context IPN-1
+      description: VRF for IPN-1
 
   - name: Run show lldp neighbors on remote devices
     ios_command:
-      commands: show lldp neighbors
+      commands: show vrf
     register: output
 
   - name: Display show lldp neighbors output
