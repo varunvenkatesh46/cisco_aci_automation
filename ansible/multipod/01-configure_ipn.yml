@@ -1,0 +1,14 @@
+---
+
+
+
+
+
+  tasks:
+  - name: Enable LLDP service
+    ios_lldp:
+      state: present
+
+  - name: run show version on remote devices
+    ios_command:
+      commands: show lldp neighbors
