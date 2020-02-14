@@ -1,7 +1,8 @@
 ---
-
-
-
+- name: Configure IPN Routers
+  hosts:
+    - ios-xe-azure
+  gather_facts: no
 
 
   tasks:
@@ -12,3 +13,8 @@
   - name: run show version on remote devices
     ios_command:
       commands: show lldp neighbors
+    register: output
+
+  - name: Display show lldp neighbors output
+    debug:
+      msg: "{{output}}"
