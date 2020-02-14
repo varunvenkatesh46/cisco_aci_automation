@@ -8,7 +8,7 @@
   - name: Create int Loopback 1
     ios_interfaces:
       config:
-        - name: GigabitEthernet0/2
+        - name: Loopback1
           description: 'Configured and Merged by Ansible Network'
 
   - name: Configure OSPF Settings
