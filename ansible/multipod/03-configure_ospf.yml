@@ -8,7 +8,7 @@
   - name: Configure OSPF
     ios_config:
       lines:
-        - router ospf 1
+        - router ospf 1 vrf IPN-1
 
   - name: Configure OSPF Settings
     ios_config:

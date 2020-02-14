@@ -16,9 +16,9 @@
       lines:
         - description BIDIR Phantom RP
         - vrf forwarding IPN-1
-        - ip address 192.168.100.1/30
+        - ip address 192.168.100.1 255.255.255.252
         - ip ospf network point-to-point
-        - ip router ospf IPN area 0.0.0.0
+        - ip router ospf 1 area 0.0.0.0
         - ip pim sparse-mode
       parents: int Loopback1
 
