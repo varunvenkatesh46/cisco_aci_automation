@@ -1,0 +1,24 @@
+---
+- name: 03. Configure OSPF
+  hosts:
+    - ios-xe-azure
+  gather_facts: no
+
+
+  tasks:
+  - name: configure interface settings
+    ios_config:
+      lines:
+        - router ospf IPN
+        - vrf IPN-1
+        - router-id 1.1.1.1
+        - log-adjacency-changes
+
+  - name: Run show ip protocol on remote devices
+    ios_command:
+      commands: show ip protocol
+    register: output
+
+  - name: Display show ip protocol
+    debug:
+      msg: "{{output}}"
