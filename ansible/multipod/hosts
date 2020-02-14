@@ -3,7 +3,7 @@ csr1000v-1 ansible_host=10.10.20.48
 ios-xe-mgmt.cisco.com ansible_port=8181
 ios-xe-mgmt-latest.cisco.com ansible_port=8181
 ios-xe-azure ansible_host=52.187.127.139
-ios-xe-azure  ansible_port=830
+ios-xe-azure  ansible_port=22
 
 [switches]
 cat9k ansible_host=10.10.20.100
