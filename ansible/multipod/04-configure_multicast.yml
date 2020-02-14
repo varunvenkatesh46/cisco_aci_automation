@@ -15,12 +15,12 @@
     ios_config:
       lines:
         - description BIDIR Phantom RP
-        - vrf member IPN-1
+        - vrf forwarding IPN-1
         - ip address 192.168.100.1/30
         - ip ospf network point-to-point
         - ip router ospf IPN area 0.0.0.0
         - ip pim sparse-mode
-      parents: int Loopback 1
+      parents: int Loopback1
 
   - name: Run show run int lo1 on remote devices
     ios_command:
