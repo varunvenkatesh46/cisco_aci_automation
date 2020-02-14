@@ -8,7 +8,7 @@
   tasks:
   - name: configure a vrf named management
     ios_vrf:
-      name: vrf context IPN-1
+      name: IPN-1
       description: VRF for IPN-1
 
   - name: Run show lldp neighbors on remote devices
