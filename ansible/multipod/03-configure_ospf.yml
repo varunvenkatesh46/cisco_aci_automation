@@ -4,7 +4,6 @@
     - ios-xe-azure
   gather_facts: no
 
-
   tasks:
   - name: Configure OSPF
     ios_config:

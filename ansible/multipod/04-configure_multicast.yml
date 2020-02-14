@@ -1,0 +1,32 @@
+---
+- name: 04. Configure Multicast
+  hosts:
+    - ios-xe-azure
+  gather_facts: no
+
+  tasks:
+  - name: Create int Loopback 1
+    ios_interfaces:
+      config:
+        - name: GigabitEthernet0/2
+          description: 'Configured and Merged by Ansible Network'
+
+  - name: Configure OSPF Settings
+    ios_config:
+      lines:
+        - description BIDIR Phantom RP
+        - vrf member IPN-1
+        - ip address 192.168.100.1/30
+        - ip ospf network point-to-point
+        - ip router ospf IPN area 0.0.0.0
+        - ip pim sparse-mode
+      parents: int Loopback 1
+
+  - name: Run show run int lo1 on remote devices
+    ios_command:
+      commands: show run int lo1
+    register: output
+
+  - name: Display show ip protocol
+    debug:
+      msg: "{{output}}"
