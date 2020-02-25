@@ -19,7 +19,7 @@ from cobra.model.vz import Filter, Entry, BrCP, Subj, RsSubjFiltAtt
 data = yaml.safe_load(open('vars/demo.yml'))
 tenant = data['tenant_info']
 
-session = LoginSession('https://192.168.10.1', 'admin', 'C1sco12345')
+session = LoginSession('https://198.18.133.200', 'admin', 'C1sco12345')
 moDir = MoDirectory(session)
 moDir.login()
 

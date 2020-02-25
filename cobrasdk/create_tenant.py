@@ -9,7 +9,7 @@ from cobra.mit.session import LoginSession
 data = yaml.safe_load(open('vars/demo.yml'))
 tenant = data['tenant_info']
 
-session = LoginSession('https://192.168.10.1', 'admin', 'C1sco12345')
+session = LoginSession('https://198.18.133.200', 'admin', 'C1sco12345')
 moDir = MoDirectory(session)
 moDir.login()
 
@@ -44,5 +44,3 @@ for vrf in tenant['vrfs']:
 
 configReq.addMo(fvTenantMo)
 moDir.commit(configReq)
-
-
