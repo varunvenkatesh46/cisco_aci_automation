@@ -1,5 +1,5 @@
 ---
-- name: Deploy Interface Selectors
+- name: Configure Interface Policy Group
   hosts: apic
   connection: local
   gather_facts: no

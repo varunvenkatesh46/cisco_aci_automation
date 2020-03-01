@@ -1,5 +1,5 @@
 ---
-- name: Build APIC Configuration from Scratch
+- name: Create VLAN Domain and AEP
   hosts: apic
   connection: local
   gather_facts: no
@@ -29,14 +29,14 @@
         end: 50
         state: present
 
-    - name: Add a new physical domain
+    - name: Add a new Physical Domain
       aci_domain:
         <<: *apic_info
         domain: Sales_PhyDom
         domain_type: phys
         state: present
 
-    - name: Bind a physical domain to VLAN pool
+    - name: Bind a Physical Domain to VLAN pool
       aci_domain_to_vlan_pool:
         <<: *apic_info
         domain: Sales_PhyDom
@@ -52,7 +52,7 @@
         description: default
         state: present
 
-    - name: Add AEP to domain binding
+    - name: Add AEP to Domain binding
       aci_aep_to_domain: &binding_present
         <<: *apic_info
         aep: HOST_AAEP
