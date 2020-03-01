@@ -1,0 +1,560 @@
+{
+	"info": {
+		"_postman_id": "52c63382-8ae9-4b76-9ef9-30b7557b8e4b",
+		"name": "Deploy FIREWALL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"aaaUser\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"name\": \"{{USERNAME}}\",\r\n\t\t\t\"pwd\": \"{{PASSWORD}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/aaaLogin.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aaaLogin.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create CLIENT-BD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvBD\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"arpFlood\": \"yes\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/BD-{{CLIENTBDNAME}}\",\r\n\t\t\t\"epMoveDetectMode\": \"\",\r\n\t\t\t\"ipLearning\": \"yes\",\r\n\t\t\t\"limitIpLearnToSubnets\": \"no\",\r\n\t\t\t\"llAddr\": \"::\",\r\n\t\t\t\"mac\": \"00:22:BD:F8:19:FF\",\r\n\t\t\t\"mcastAllow\": \"no\",\r\n\t\t\t\"multiDstPktAct\": \"bd-flood\",\r\n\t\t\t\"name\": \"{{CLIENTBDNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"type\": \"regular\",\r\n\t\t\t\"unicastRoute\": \"no\",\r\n\t\t\t\"unkMacUcastAct\": \"flood\",\r\n\t\t\t\"unkMcastAct\": \"flood\",\r\n\t\t\t\"vmac\": \"not-applicable\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"fvRsBDToNdP\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnNdIfPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsCtx\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnFvCtxName\": \"{{VRFNAME}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsIgmpsn\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnIgmpSnoopPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsBdToEpRet\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"resolveAct\": \"resolve\",\r\n\t\t\t\t\t\t\"tnFvEpRetPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SERVER-BD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvBD\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"arpFlood\": \"yes\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/BD-{{SERVERBDNAME}}\",\r\n\t\t\t\"epMoveDetectMode\": \"\",\r\n\t\t\t\"ipLearning\": \"yes\",\r\n\t\t\t\"limitIpLearnToSubnets\": \"no\",\r\n\t\t\t\"llAddr\": \"::\",\r\n\t\t\t\"mac\": \"00:22:BD:F8:19:FF\",\r\n\t\t\t\"mcastAllow\": \"no\",\r\n\t\t\t\"multiDstPktAct\": \"bd-flood\",\r\n\t\t\t\"name\": \"{{SERVERBDNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"type\": \"regular\",\r\n\t\t\t\"unicastRoute\": \"no\",\r\n\t\t\t\"unkMacUcastAct\": \"flood\",\r\n\t\t\t\"unkMcastAct\": \"flood\",\r\n\t\t\t\"vmac\": \"not-applicable\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"fvRsBDToNdP\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnNdIfPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsCtx\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnFvCtxName\": \"{{VRFNAME}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsIgmpsn\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnIgmpSnoopPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsBdToEpRet\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"resolveAct\": \"resolve\",\r\n\t\t\t\t\t\t\"tnFvEpRetPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Application Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvAp\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}\",\r\n\t\t\t\"name\": \"{{APPPROFILENAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"prio\": \"unspecified\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create CLIENT-EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvAEPg\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{CLIENTEPG}}\",\r\n\t\t\t\"fwdCtrl\": \"\",\r\n\t\t\t\"isAttrBasedEPg\": \"no\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"name\": \"{{CLIENTEPG}}\",\r\n\t\t\t\"pcEnfPref\": \"unenforced\",\r\n\t\t\t\"prefGrMemb\": \"exclude\",\r\n\t\t\t\"prio\": \"unspecified\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Map Client EPG to VMM Domain",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsDomAtt\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"classPref\": \"encap\",\r\n\t\t\t\"delimiter\": \"\",\r\n\t\t\t\"encap\": \"unknown\",\r\n\t\t\t\"encapMode\": \"auto\",\r\n\t\t\t\"instrImedcy\": \"immediate\",\r\n\t\t\t\"primaryEncap\": \"unknown\",\r\n\t\t\t\"resImedcy\": \"immediate\",\r\n\t\t\t\"tDn\": \"uni/vmmp-VMware/dom-{{VMMDOMAIN}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{CLIENTEPG}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{CLIENTEPG}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate CLIENT-BD to CLIENT-EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsBd\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"tnFvBDName\": \"{{CLIENTBDNAME}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{CLIENTEPG}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{CLIENTEPG}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SERVER-EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvAEPg\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{SERVEREPG}}\",\r\n\t\t\t\"fwdCtrl\": \"\",\r\n\t\t\t\"isAttrBasedEPg\": \"no\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"name\": \"{{SERVEREPG}}\",\r\n\t\t\t\"pcEnfPref\": \"unenforced\",\r\n\t\t\t\"prefGrMemb\": \"exclude\",\r\n\t\t\t\"prio\": \"unspecified\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Map Server EPG to VMM Domain",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsDomAtt\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"classPref\": \"encap\",\r\n\t\t\t\"delimiter\": \"\",\r\n\t\t\t\"encap\": \"unknown\",\r\n\t\t\t\"encapMode\": \"auto\",\r\n\t\t\t\"instrImedcy\": \"immediate\",\r\n\t\t\t\"primaryEncap\": \"unknown\",\r\n\t\t\t\"resImedcy\": \"immediate\",\r\n\t\t\t\"tDn\": \"uni/vmmp-VMware/dom-{{VMMDOMAIN}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{SERVEREPG}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{SERVEREPG}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate SERVER-BD to SERVER-EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsBd\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"tnFvBDName\": \"SERVERBDNAME\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{SERVEREPG}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{SERVEREPG}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Function Profile Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vnsAbsFuncProfGrp\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/absFuncProfContr/absFuncProfGrp-{{FUNTIONPROFILEGROUPNAME}}\",\r\n\t\t\t\"name\": \"{{FUNTIONPROFILEGROUPNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Firewall Function Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vnsAbsFuncProf\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/absFuncProfContr/absFuncProfGrp-{{FUNTIONPROFILEGROUPNAME}}/absFuncProf-{{FUNCTIONPROFILEFIREWALL}}\",\r\n\t\t\t\"name\": \"{{FUNCTIONPROFILEFIREWALL}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vnsRsProfToMFunc\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2/mFunc-Firewall\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsAbsDevCfg\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"devConfig\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"key\": \"Interface\",\r\n\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"internalIf\",\r\n\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"InterfaceConfig\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"internalIfCfg\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"security_level\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"internal_security_level\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"100\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"IPv4Address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"IPv4Address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"ipv4_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"ipv4_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"{{INTERNALIPADDRESS}}\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"key\": \"AccessList\",\r\n\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"access-list-inbound\",\r\n\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"AccessControlEntry\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"permit-https\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"order\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"order1\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"10\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"action\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"action-permit\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"permit\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"protocol\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"tcp\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"name_number\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"tcp\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"tcp\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"destination_service\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"dest-service\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"operator\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"op\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"eq\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"low_port\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"port\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"https\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"source_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"src-address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"any\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"destination_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"dest-address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"any\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"AccessControlEntry\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"permit-any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"order\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"order\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"1\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"action\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"action\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"permit\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"destination_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"destination_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"any\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"source_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"source_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"any\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"AccessControlEntry\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"permit-http\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"order\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"order1\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"10\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"action\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"action-permit\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"permit\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"protocol\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"tcp\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"name_number\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"tcp\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"tcp\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"destination_service\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"dest-service\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"operator\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"op\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"eq\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"low_port\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"port\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"http\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"source_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"src-address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"any\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"destination_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"dest-address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"any\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"any\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"key\": \"Interface\",\r\n\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"externalIf\",\r\n\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"InterfaceConfig\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"externalIfCfg\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"security_level\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"external_security_level\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"50\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"IPv4Address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"IPv4Address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsParam\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"ipv4_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"yes\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"ipv4_address\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"validation\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"value\": \"{{EXTERNALIPADDRESS}}\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"AccessGroup\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"ExtAccessGroup\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\"vnsAbsCfgRel\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"inbound_access_list_name\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"name\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\"targetName\": \"access-list-inbound\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsAbsFuncCfg\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"funcConfig\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"key\": \"InIntfConfigRelFolder\",\r\n\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"IntConfig\",\r\n\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsCfgRel\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"InIntfConfigRel\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"InConfigrel\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"targetName\": \"internalIf\"\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsAbsFolder\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"key\": \"ExIntfConfigRelFolder\",\r\n\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"ExtConfig\",\r\n\t\t\t\t\t\t\t\t\t\"profileBehaviorShared\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"scopedBy\": \"epg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsAbsCfgRel\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"cardinality\": \"unspecified\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"key\": \"ExIntfConfigRel\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"locked\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"mandatory\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"name\": \"ExtConfigrel\",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"targetName\": \"externalIf\"\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Firewall",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vnsLDevVip\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"contextAware\": \"single-Context\",\r\n\t\t\t\"devtype\": \"VIRTUAL\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/lDevVip-{{FIREWALLNAME}}\",\r\n\t\t\t\"funcType\": \"GoTo\",\r\n\t\t\t\"isCopy\": \"no\",\r\n\t\t\t\"managed\": \"yes\",\r\n\t\t\t\"mode\": \"legacy-Mode\",\r\n\t\t\t\"name\": \"{{FIREWALLNAME}}\",\r\n\t\t\t\"packageModel\": \"ASAv\",\r\n\t\t\t\"svcType\": \"FW\",\r\n\t\t\t\"trunking\": \"no\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vnsRsMDevAtt\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsCCred\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"name\": \"username\",\r\n\t\t\t\t\t\t\"value\": \"{{ASAUSERNAME}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsCCredSecret\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"name\": \"password\",\r\n\t\t\t\t\t\t\"value\": \"{{ASAPASSWORD}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsRsALDevToDomP\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tDn\": \"uni/vmmp-VMware/dom-{{VMMDOMAIN}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsCMgmt\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"host\": \"{{ASAMGMTIP}}\",\r\n\t\t\t\t\t\t\"name\": \"\",\r\n\t\t\t\t\t\t\"port\": \"443\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsCDev\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"devCtxLbl\": \"\",\r\n\t\t\t\t\t\t\"name\": \"Device1\",\r\n\t\t\t\t\t\t\"vcenterName\": \"{{VCENTERNAME}}\",\r\n\t\t\t\t\t\t\"vmName\": \"{{ASAVMNAME}}\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsCCred\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"name\": \"username\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{ASAUSERNAME}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsCCredSecret\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"name\": \"password\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{ASAPASSWORD}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsCMgmt\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"host\": \"{{ASAMGMTIP}}\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"port\": \"443\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsCIf\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"name\": \"{{OUTSIDEINT}}\",\r\n\t\t\t\t\t\t\t\t\t\"vnicName\": \"{{OUTSIDEVNICNAME}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsCIf\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"name\": \"{{INSIDEINT}}\",\r\n\t\t\t\t\t\t\t\t\t\"vnicName\": \"{{INSIDEVNICNAME}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsCDevToCtrlrP\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/vmmp-VMware/dom-{{VMMDOMAIN}}/ctrlr-{{VCENTERNAME}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsLIf\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"encap\": \"unknown\",\r\n\t\t\t\t\t\t\"name\": \"outside\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsRsMetaIf\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"isConAndProv\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2/mIfLbl-external\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsCIfAttN\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/lDevVip-{{FIREWALLNAME}}/cDev-Device1/cIf-[{{INSIDEINT}}]\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsLIf\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"encap\": \"unknown\",\r\n\t\t\t\t\t\t\"name\": \"inside\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsRsMetaIf\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"isConAndProv\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2/mIfLbl-internal\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsCIfAttN\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/lDevVip-{{FIREWALLNAME}}/cDev-Device1/cIf-[{{OUTSIDEINT}}]\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Contract",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vzBrCP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/brc-{{FIREWALLCONTRACT}}\",\r\n\t\t\t\"name\": \"{{FIREWALLCONTRACT}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"scope\": \"context\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vzSubj\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"consMatchT\": \"AtleastOne\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"{{SUBJECTNAME}}\",\r\n\t\t\t\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\t\t\t\"provMatchT\": \"AtleastOne\",\r\n\t\t\t\t\t\t\"revFltPorts\": \"yes\",\r\n\t\t\t\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vzRsSubjFiltAtt\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"directives\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"tnVzFilterName\": \"default\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Con Contract to CLIENT-EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsCons\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{CLIENTEPG}}/rscons-{{FIREWALLCONTRACT}}\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"tnVzBrCPName\": \"{{FIREWALLCONTRACT}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Pro Contract to SERVER-EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsProv\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{SERVEREPG}}/rsprov-{{FIREWALLCONTRACT}}\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"tnVzBrCPName\": \"{{FIREWALLCONTRACT}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Service Graph",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vnsAbsGraph\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/AbsGraph-{{SERVICEGRAPHNAME}}\",\r\n\t\t\t\"name\": \"{{SERVICEGRAPHNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"uiTemplateType\": \"UNSPECIFIED\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vnsAbsTermNodeCon\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"T1\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsAbsTermConn\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"attNotify\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"1\",\r\n\t\t\t\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsInTerm\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsOutTerm\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsAbsTermNodeProv\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"T2\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsAbsTermConn\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"attNotify\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"1\",\r\n\t\t\t\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsInTerm\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsOutTerm\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsAbsConnection\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"adjType\": \"L2\",\r\n\t\t\t\t\t\t\"connDir\": \"provider\",\r\n\t\t\t\t\t\t\"connType\": \"external\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"directConnect\": \"no\",\r\n\t\t\t\t\t\t\"name\": \"C1\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\t\t\t\"unicastRoute\": \"yes\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsRsAbsConnectionConns\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/AbsGraph-{{SERVICEGRAPHNAME}}/AbsNode-ASAv/AbsFConn-consumer\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsAbsConnectionConns\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/AbsGraph-{{SERVICEGRAPHNAME}}/AbsTermNodeCon-T1/AbsTConn\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsAbsConnection\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"adjType\": \"L2\",\r\n\t\t\t\t\t\t\"connDir\": \"provider\",\r\n\t\t\t\t\t\t\"connType\": \"external\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"directConnect\": \"no\",\r\n\t\t\t\t\t\t\"name\": \"C2\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\t\t\t\"unicastRoute\": \"yes\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsRsAbsConnectionConns\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/AbsGraph-{{SERVICEGRAPHNAME}}/AbsTermNodeProv-T2/AbsTConn\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsAbsConnectionConns\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/AbsGraph-{{SERVICEGRAPHNAME}}/AbsNode-ASAv/AbsFConn-provider\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vnsAbsNode\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"funcTemplateType\": \"FW_ROUTED\",\r\n\t\t\t\t\t\t\"funcType\": \"GoTo\",\r\n\t\t\t\t\t\t\"isCopy\": \"no\",\r\n\t\t\t\t\t\t\"managed\": \"yes\",\r\n\t\t\t\t\t\t\"name\": \"ASAv\",\r\n\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\t\t\t\"routingMode\": \"unspecified\",\r\n\t\t\t\t\t\t\"sequenceNumber\": \"0\",\r\n\t\t\t\t\t\t\"shareEncap\": \"no\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vnsAbsFuncConn\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"attNotify\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"consumer\",\r\n\t\t\t\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsRsMConnAtt\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2/mFunc-Firewall/mConn-external\"\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsAbsFuncConn\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"attNotify\": \"no\",\r\n\t\t\t\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"name\": \"provider\",\r\n\t\t\t\t\t\t\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"ownerTag\": \"\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\t\t\t\"vnsRsMConnAtt\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2/mFunc-Firewall/mConn-internal\"\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsNodeToAbsFuncProf\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/absFuncProfContr/absFuncProfGrp-{{FUNTIONPROFILEGROUPNAME}}/absFuncProf-{{FUNCTIONPROFILEFIREWALL}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsNodeToMFunc\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/infra/mDev-CISCO-ASA-1.2/mFunc-Firewall\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}, {\r\n\t\t\t\t\t\t\t\"vnsRsNodeToLDev\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tDn\": \"uni/tn-{{TENANTNAME}}/lDevVip-{{FIREWALLNAME}}\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deploy Service Graph",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vzSubj\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"consMatchT\": \"AtleastOne\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/brc-{{FIREWALLCONTRACT}}/subj-{{SUBJECTNAME}}\",\r\n\t\t\t\"name\": \"{{SUBJECTNAME}}\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"provMatchT\": \"AtleastOne\",\r\n\t\t\t\"revFltPorts\": \"yes\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vzRsSubjGraphAtt\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"directives\": \"\",\r\n\t\t\t\t\t\t\"tnVnsAbsGraphName\": \"{{SERVICEGRAPHNAME}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"vzRsSubjFiltAtt\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"directives\": \"\",\r\n\t\t\t\t\t\t\"tnVzFilterName\": \"default\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "a9cf793c-5f75-4deb-9868-a5b965828c5d",
+		"name": "Un-Deploy L3OUT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"aaaUser\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"name\": \"{{USERNAME}}\",\r\n\t\t\t\"pwd\": \"{{PASSWORD}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/aaaLogin.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aaaLogin.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set WEB Subnet to Private",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvSubnet\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"ctrl\": \"\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/BD-{{BDNAME}}/subnet-[{{WEBSUBNET}}]\",\r\n\t\t\t\"ip\": \"{{WEBSUBNET}}\",\r\n\t\t\t\"name\": \"\",\r\n\t\t\t\"preferred\": \"no\",\r\n\t\t\t\"scope\": \"private\",\r\n\t\t\t\"virtual\": \"no\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Contratc to L3OUT-EPG",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/instP-{{L3OUTEPGNAME}}/rsprov-{{WEBL3OUTCONTRACTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}",
+						"instP-{{L3OUTEPGNAME}}",
+						"rsprov-{{WEBL3OUTCONTRACTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Contract to WEB",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{WEBEPGNAME}}/rscons-{{WEBL3OUTCONTRACTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{WEBEPGNAME}}",
+						"rscons-{{WEBL3OUTCONTRACTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete L3OUT-WEB Contract",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/brc-{{WEBL3OUTCONTRACTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"brc-{{WEBL3OUTCONTRACTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DIsassociate L3OUT to BD",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/BD-{{BDNAME}}/rsBDToOut-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"BD-{{BDNAME}}",
+						"rsBDToOut-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove L3OUT",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete L3 EXT Domain",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/l3dom-{{DOMAIN}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"l3dom-{{DOMAIN}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete L3 VLAN Pool",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra/vlanns-[{{VLANPOOLNAME}}]-dynamic.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra",
+						"vlanns-[{{VLANPOOLNAME}}]-dynamic.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

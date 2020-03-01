@@ -1,0 +1,632 @@
+{
+	"info": {
+		"_postman_id": "aaec7a7e-93f8-414c-a89e-b2fdaf1a917e",
+		"name": "Deploy L3OUT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"aaaUser\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"name\": \"{{USERNAME}}\",\r\n\t\t\t\"pwd\": \"{{PASSWORD}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/aaaLogin.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aaaLogin.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create L3-VLAN-POOL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvnsVlanInstP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"allocMode\": \"dynamic\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/infra/vlanns-[{{VLANPOOLNAME}}]-dynamic\",\r\n\t\t\t\"name\": \"{{VLANPOOLNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t}\r\n\t\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add VLAN Range",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\t\"fvnsEncapBlk\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"allocMode\": \"inherit\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"from\": \"vlan-{{VLAN}}\",\r\n\t\t\t\t\t\t\"name\": \"\",\r\n\t\t\t\t\t\t\"to\": \"vlan-{{VLAN}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra/vlanns-[{{VLANPOOLNAME}}]-dynamic.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra",
+						"vlanns-[{{VLANPOOLNAME}}]-dynamic.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create L3 EXT DOMAIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"l3extDomP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/l3dom-{{DOMAIN}}\",\r\n\t\t\t\"name\": \"{{DOMAIN}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t}\r\n\t\t\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create L3 LAB AEP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"infraAttEntityP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/infra/attentp-{{AEP}}\",\r\n\t\t\t\"name\": \"{{AEP}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate L3 EXT DOMAIN to AEP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"infraRsDomP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"tDn\": \"uni/l3dom-{{DOMAIN}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra/attentp-{{AEP}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra",
+						"attentp-{{AEP}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add VLAN Pool to L3 EXT DOMAIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"infraRsVlanNs\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"tDn\": \"uni/infra/vlanns-[{{VLANPOOLNAME}}]-dynamic\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/l3dom-{{DOMAIN}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"l3dom-{{DOMAIN}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create L3OUT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"l3extOut\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}\",\r\n\t\t\t\"enforceRtctrl\": \"export\",\r\n\t\t\t\"name\": \"{{L3OUTNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate VRF to L3OUT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\t\"l3extRsEctx\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnFvCtxName\": \"{{VRFNAME}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate L3 DOMAIN to L3OUT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\t\"l3extRsL3DomAtt\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tDn\": \"uni/l3dom-{{DOMAIN}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure OSPF for L3OUT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\t\"ospfExtP\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"areaCost\": \"1\",\r\n\t\t\t\t\t\t\"areaCtrl\": \"redistribute,summary\",\r\n\t\t\t\t\t\t\"areaId\": \"{{AREAID}}\",\r\n\t\t\t\t\t\t\"areaType\": \"{{AREATYPE}}\",\r\n\t\t\t\t\t\t\"descr\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure Node Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"l3extLNodeP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"configIssues\": \"\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/lnodep-{{NODEPROFILENAME}}\",\r\n\t\t\t\"name\": \"{{NODEPROFILENAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"tag\": \"yellow-green\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure Node ID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"l3extRsNodeL3OutAtt\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/lnodep-{{NODEPROFILENAME}}/rsnodeL3OutAtt-[topology/pod-1/node-{{NODEID}}]\",\r\n\t\t\t\"rtrId\": \"{{RTRID}}\",\r\n\t\t\t\"rtrIdLoopBack\": \"no\",\r\n\t\t\t\"tDn\": \"topology/pod-1/node-{{NODEID}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/lnodep-{{NODEPROFILENAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}",
+						"lnodep-{{NODEPROFILENAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Logical INT Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"l3extLIfP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/lnodep-{{NODEPROFILENAME}}/lifp-{{INTPROFILENAME}}\",\r\n\t\t\t\"name\": \"{{INTPROFILENAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"tag\": \"yellow-green\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"ospfIfP\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"authKeyId\": \"1\",\r\n\t\t\t\t\t\t\"authType\": \"none\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"ospfRsIfPol\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"tnOspfIfPolName\": \"\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"l3extRsNdIfPol\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnNdIfPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"l3extRsIngressQosDppPol\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnQosDppPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"l3extRsEgressQosDppPol\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnQosDppPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"l3extRsPathL3OutAtt\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"addr\": \"{{SVIIP}}\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"encap\": \"vlan-{{VLAN}}\",\r\n\t\t\t\t\t\t\"encapScope\": \"local\",\r\n\t\t\t\t\t\t\"ifInstT\": \"ext-svi\",\r\n\t\t\t\t\t\t\"llAddr\": \"::\",\r\n\t\t\t\t\t\t\"mac\": \"00:22:BD:F8:19:FF\",\r\n\t\t\t\t\t\t\"mode\": \"regular\",\r\n\t\t\t\t\t\t\"mtu\": \"{{MTU}}\",\r\n\t\t\t\t\t\t\"tDn\": \"topology/pod-1/paths-{{NODEID}}/pathep-[eth{{CARDNUMBER}}/{{PORTNUMBER}}]\",\r\n\t\t\t\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/lnodep-{{NODEPROFILENAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}",
+						"lnodep-{{NODEPROFILENAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create L3OUT EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"l3extInstP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/instP-{{L3OUTEPGNAME}}\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"name\": \"{{L3OUTEPGNAME}}\",\r\n\t\t\t\"prefGrMemb\": \"exclude\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"l3extSubnet\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"aggregate\": \"\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"ip\": \"{{L3EXTSUBNET1}}\",\r\n\t\t\t\t\t\t\"name\": \"\",\r\n\t\t\t\t\t\t\"scope\": \"import-security\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"l3extSubnet\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"aggregate\": \"\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"ip\": \"{{L3EXTSUBNET2}}\",\r\n\t\t\t\t\t\t\"name\": \"\",\r\n\t\t\t\t\t\t\"scope\": \"import-security\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsCustQosPol\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnQosCustomPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"out-{{L3OUTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate L3OUT to BD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"fvRsBDToOut\":{\"attributes\":{\"tnL3extOutName\":\"{{L3OUTNAME}}\",\"status\":\"created\"},\"children\":[]}}\n\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/BD-{{BDNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"BD-{{BDNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a WEB-L3OUT Contract",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vzBrCP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/brc-{{WEBL3OUTCONTRACTNAME}}\",\r\n\t\t\t\"name\": \"{{WEBL3OUTCONTRACTNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"scope\": \"global\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vzSubj\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"consMatchT\": \"AtleastOne\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"PERMIT-ALL\",\r\n\t\t\t\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\t\t\t\"provMatchT\": \"AtleastOne\",\r\n\t\t\t\t\t\t\"revFltPorts\": \"yes\",\r\n\t\t\t\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vzRsSubjFiltAtt\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"directives\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"tnVzFilterName\": \"default\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate WEB-L3OUT Contract to WEB EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsCons\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{WEBEPGNAME}}/rscons-{{WEBL3OUTCONTRACTNAME}}\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"tnVzBrCPName\": \"{{WEBL3OUTCONTRACTNAME}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate WEB-L3OUT Contract to L3OUT EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsProv\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/out-{{L3OUTNAME}}/instP-{{L3OUTEPGNAME}}/rsprov-{{WEBL3OUTCONTRACTNAME}}\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"tnVzBrCPName\": \"{{WEBL3OUTCONTRACTNAME}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Advertise WEB Subnet Externally",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvSubnet\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"ctrl\": \"\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/BD-{{BDNAME}}/subnet-[{{WEBSUBNET}}]\",\r\n\t\t\t\"ip\": \"{{WEBSUBNET}}\",\r\n\t\t\t\"name\": \"\",\r\n\t\t\t\"preferred\": \"no\",\r\n\t\t\t\"scope\": \"public\",\r\n\t\t\t\"virtual\": \"no\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -6,7 +6,7 @@ from cobra.mit.access import MoDirectory
 from cobra.mit.session import LoginSession
 
 
-session = LoginSession('https://192.168.10.1', 'admin', 'C1sco12345')
+session = LoginSession('https://198.18.133.200', 'admin', 'C1sco12345')
 moDir = MoDirectory(session)
 moDir.login()
 
@@ -24,5 +24,3 @@ fvTenantMo = Tenant(uniMo, 'DEMO-COBRA')
 fvTenantMo.delete()
 configReq.addMo(fvTenantMo)
 moDir.commit(configReq)
-
-

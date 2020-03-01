@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "32468a2d-4fde-486e-a9db-f220f29531c6",
+		"name": "Deploy BAREMETAL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"aaaUser\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"name\": \"{{USERNAME}}\",\r\n\t\t\t\"pwd\": \"{{PASSWORD}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/aaaLogin.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aaaLogin.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create VLANPOOL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvnsVlanInstP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"allocMode\": \"static\",\r\n\t\t\t\"name\": \"{{VLANPOOLNAME}}\"\r\n\t\t}\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/mo/uni/infra.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"mo",
+						"uni",
+						"infra.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure VLAN Range for L2 VLANPOOL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvnsEncapBlk\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"allocMode\": \"inherit\",\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"from\": \"vlan-{{VLAN}}\",\r\n\t\t\t\"name\": \"\",\r\n\t\t\t\"to\": \"vlan-{{VLAN}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/mo/uni/infra/vlanns-[{{VLANPOOLNAME}}]-static.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"mo",
+						"uni",
+						"infra",
+						"vlanns-[{{VLANPOOLNAME}}]-static.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create AEP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"infraAttEntityP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/infra/attentp-{{AEP}}\",\r\n\t\t\t\"name\": \"{{AEP}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create PHYSICAL DOMAIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"physDomP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/phys-{{DOMAIN}}\",\r\n\t\t\t\"name\": \"{{DOMAIN}}\",\r\n\t\t\t\"nameAlias\": \"\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"infraRsVlanNs\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tDn\": \"uni/infra/vlanns-[{{VLANPOOLNAME}}]-static\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add PHYSICAL DOMAIN to AEP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"infraRsDomP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/infra/attentp-{{AEP}}/rsdomP-[uni/phys-{{DOMAIN}}]\",\r\n\t\t\t\"tDn\": \"uni/phys-{{DOMAIN}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvAEPg\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{BAREMETALEPGNAME}}\",\r\n\t\t\t\"fwdCtrl\": \"\",\r\n\t\t\t\"isAttrBasedEPg\": \"no\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"name\": \"{{BAREMETALEPGNAME}}\",\r\n\t\t\t\"nameAlias\": \"\",\r\n\t\t\t\"pcEnfPref\": \"unenforced\",\r\n\t\t\t\"prefGrMemb\": \"exclude\",\r\n\t\t\t\"prio\": \"unspecified\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"fvRsCustQosPol\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnQosCustomPolName\": \"\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}, {\r\n\t\t\t\t\"fvRsBd\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"tnFvBDName\": \"{{BDNAME}}\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Static Binding",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsPathAtt\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{BAREMETALEPGNAME}}/rspathAtt-[topology/pod-1/paths-{{NODEID}}/pathep-[eth{{CARDNUMBER}}/{{PORTNUMBER}}]]\",\r\n\t\t\t\"encap\": \"vlan-{{VLAN}}\",\r\n\t\t\t\"instrImedcy\": \"immediate\",\r\n\t\t\t\"mode\": \"regular\",\r\n\t\t\t\"primaryEncap\": \"unknown\",\r\n\t\t\t\"tDn\": \"topology/pod-1/paths-{{NODEID}}/pathep-[eth{{CARDNUMBER}}/{{PORTNUMBER}}]\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Contract",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"vzBrCP\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"descr\": \"\",\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/brc-{{DBBAREMETALCONTRACTNAME}}\",\r\n\t\t\t\"name\": \"{{DBBAREMETALCONTRACTNAME}}\",\r\n\t\t\t\"ownerKey\": \"\",\r\n\t\t\t\"ownerTag\": \"\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"scope\": \"context\",\r\n\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t},\r\n\t\t\"children\": [{\r\n\t\t\t\t\"vzSubj\": {\r\n\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\"consMatchT\": \"AtleastOne\",\r\n\t\t\t\t\t\t\"descr\": \"\",\r\n\t\t\t\t\t\t\"name\": \"PERMIT-ALL\",\r\n\t\t\t\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\t\t\t\"provMatchT\": \"AtleastOne\",\r\n\t\t\t\t\t\t\"revFltPorts\": \"yes\",\r\n\t\t\t\t\t\t\"targetDscp\": \"unspecified\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"children\": [{\r\n\t\t\t\t\t\t\t\"vzRsSubjFiltAtt\": {\r\n\t\t\t\t\t\t\t\t\"attributes\": {\r\n\t\t\t\t\t\t\t\t\t\"directives\": \"\",\r\n\t\t\t\t\t\t\t\t\t\"tnVzFilterName\": \"default\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate Contract to DB EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsCons\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{DBEPGNAME}}/rscons-{{DBBAREMETALCONTRACTNAME}}\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"tnVzBrCPName\": \"{{DBBAREMETALCONTRACTNAME}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate Contract to BAREMETAL EPG",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fvRsProv\": {\r\n\t\t\"attributes\": {\r\n\t\t\t\"dn\": \"uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{BAREMETALEPGNAME}}/rsprov-{{DBBAREMETALCONTRACTNAME}}\",\r\n\t\t\t\"matchT\": \"AtleastOne\",\r\n\t\t\t\"prio\": \"unspecified\",\r\n\t\t\t\"tnVzBrCPName\": \"{{DBBAREMETALCONTRACTNAME}}\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

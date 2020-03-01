@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "74a5450b-c800-4e99-9451-3faef408a958",
+		"name": "Un-Deploy BAREMETAL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"aaaUser\": {\"attributes\": {\"name\": \"{{USERNAME}}\", \"pwd\": \"{{PASSWORD}}\"}}}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/api/aaaLogin.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aaaLogin.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Contract on DB EPG",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{DBEPGNAME}}/rscons-{{DBBAREMETALCONTRACTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{DBEPGNAME}}",
+						"rscons-{{DBBAREMETALCONTRACTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete DB-BAREMETAL Contract",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/brc-{{DBBAREMETALCONTRACTNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"brc-{{DBBAREMETALCONTRACTNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove the BAREMETAl EPG",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/tn-{{TENANTNAME}}/ap-{{APPPROFILENAME}}/epg-{{BAREMETALEPGNAME}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"tn-{{TENANTNAME}}",
+						"ap-{{APPPROFILENAME}}",
+						"epg-{{BAREMETALEPGNAME}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete BAREMETAl AEP",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra/attentp-{{AEP}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra",
+						"attentp-{{AEP}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete PHY DOMAIN",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/phys-{{DOMAIN}}.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"phys-{{DOMAIN}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete VLANPOOL",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/api/node/mo/uni/infra/vlanns-[{{VLANPOOLNAME}}]-static.json",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"node",
+						"mo",
+						"uni",
+						"infra",
+						"vlanns-[{{VLANPOOLNAME}}]-static.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

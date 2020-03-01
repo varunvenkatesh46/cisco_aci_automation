@@ -1,6 +1,6 @@
 ---
 tenant_info:
-  name: DEMO
+  name: DEMO-COBRA
   vrfs:
     - name: VRF1
       bds:
